@@ -44,19 +44,20 @@
 		provádìjící dílèí kroky zpracování èokolády, efektivnì zapojeny do výroby,
 		popøípadì najít efektivnìj¹í øe¹ení.
 
-		\subsection{Podìkování}
+		\subsection{Autoøi}
 			Na úvod bych chtìl podìkovat Pavlu Dobovi, který mi byl ochoten vìnovat
-			svùj èas a pøedal mi stì¾ejní informace pro vypracování tohoto projektu.
+			svùj èas a pøedal nám stì¾ejní informace pro vypracování tohoto projektu.
+			Samotnými autory projektu jsou studenti Jiøí Matìjka a Miroslava Mí¹ová.
 
 		\subsection{Zdroje informací}
-			Ve¹keré potøebné informace jsem získal od Pavla Duby, zamìstnance
-			spoleènosti LION PRODUCTS, s.r.o. Na základì rozhovoru s ním jsem
+			Ve¹keré potøebné informace jseme získali od Pavla Duby, zamìstnance
+			spoleènosti LION PRODUCTS, s.r.o. Na základì rozhovoru s ním jsme
 			získal potøebné vìdomosti k sestavení abstraknho modelu. Nejslab¹ím
 			místem modelu jsou pøibli¾né èasové údaje, kdy nastávají poruchy
-			na strojích. Tyto nedostatky ale byly odstranìny experimenty a
-			následnou konzultací, jak prùbìh simulace odpovídal reálnému provozu.
+			na strojích. Tyto nedostatky ale byli minimalizovány dal¹ími rozhovory
+			se zamìstnancem.
 
-	\section{Zpracování surové èokolády}
+	\section{Zpracování èokolády} \label{zapracovani_cokolady}
 		Jedna linka, zpracovávající èokoládu se skládá ze tøí strojù, dvou nádob a
 		jednoho pásu. Stroje jsou mixér, èerpadlo a stroj tvoøící výrobky.
 		Mixér drtí a taví èokoládu. Poté co je ve¹kerá èokoláda v tekutém stavu,
@@ -79,6 +80,8 @@
 			rovnomìrnì.
 
 		\subsection{Poruchy nastávající bìhem zpracování èokolády}
+			Na v¹ech strojích na lince mù¾e dojít k poruchám.
+
 			\subsubsection{Mixér}
 				Na mixéru nastávají hned 2 poruchy. První a záva¾nìj¹í porucha nastává
 				na èepeli mixéru a tehdy se mixér musí rozebrat, èelep vymìnit a stroj
@@ -118,33 +121,62 @@
 			pøemístí zpìt k mixéru a nádobì na èokoládu. V nádobì je otvor, na
 			který je napojeno èerpadlo, umístìn v levé èásti a tam zamìstnanec
 			hrne ve¹kerou èokoládu. Poté co odèerpá poslední zbytky èokolády,
-			vypíná se stroj na tvorbu výrobkù a jde se opìt plnit mixér.
+			vypíná se stroj na tvorbu výrobkù a jde se opìt plnit mixér. Detekce
+			zmetkù je provádìna v dal¹í èásti zpracování. Toto je v modelu
+			zjednodu¹eno a poèítá se pouze s èasovou prodlevou, ne¾ se vadné
+			kusy vrátí zpìt na zaèátek procesu. Model to ovlivní vùbec neovlivní,
+			proto¾e pøi plnìní mixéru je úplnì jedno, zda vlo¾ený kus èokolády je
+			zmetek nebo je¹tì nezpracovaný kus.
 
-	\section{Experimenty}
-		Proto¾e údaje, které jsme získali, nebyli úplnì nejpøesnìj¹í, bylo tøeba
-		vytvoøit simulaèní model, udìlat pár experimentù a upøesnit zadané hodnoty.
-		Bohu¾el jsme na tuto èást nemìli tolik èasu a proto jsme vybrali ten experiment,
-		který se podle Pavla Duby nejvíce podobal realitì A dal¹í iteraci jsme neprovedli.
-		Tabulka \ref{table:data} ukazuje jak se upravené hodnoty li¹í od pùvodních hodnot.
-		\begin{table}
-			\centering
-		    \begin{tabular}{|l|l|l|}
-			\hline
-			    Údaj                            & Pùvodní hodnota                      & Upravená hodnota            \\ \hline
-			    Doba obsluhy mixéru             & 15 minut                             & 14 -- 17 minut rovnomìrnì   \\
-			    Doba èerpání 1 kila             & 12 sekund                            & 12 sekund                   \\
-			    Doba zpracování 1 kila          & 18 sekund                            & 18 sekund                   \\
-			    Porucha èepele na mixéru        & 1 do roka                            & (exp) 365 dnù               \\
-			    Zanesení filtru na mixéru       & 1 krát max 2 krát za 2 mìsíce                & (exp) 43 dnù        \\
-			    Zatvrdnutí èokolády             & jednou do mìsíce                     & (exp) 30 dní                \\
-			    Zavzdu¹nìní stroje              & jednou za 14 dní                     & (exp) 14 dní                \\
-			    Doba opravy èepele mixéru       & Do týdne to je opravené              & (exp) 5 dní                 \\
-			    Výmìna/vyèi¹tìní filtru         & 1 -- 4 hodiny, zále¾í na technikovi  & 1 -- 4 hodiny rovnomìnì     \\
-			    Oprava èerpadla                 & 30 -- 40 minut                       & 30 -- 40 minut rovnomìrnì   \\
-			    Odvzdu¹nìní stroje              & kolem 15 minut                       & (exp) 15 minut              \\ \hline
-		    \end{tabular}
-			\caption{Tabulka zobrazující data získaná z prùzkumu a jejich upravené hodnoty na základì experimentu.}
-			\label{table:data}
-		\end{table}
+		\subsection{Upøesnìní získaných dat}
+			Pro správné fungování simulaèního modelu bylo upøesnit zadaná data. Z
+			dal¹ích konzultací s Pavlem Dubou jsme dospìli k výsledkým uvedené
+			v tabulce \ref{table:data}. Pøesto¾e údaje jsou ji¾ pøesnìj¹í, model
+			systému bude tøeba je¹tì validovat a verifikovat.
+
+			\begin{table}[htb]
+				\centering
+			    \begin{tabular}{|l|l|l|}
+				\hline
+				    Údaj                            & Pùvodní hodnota                      & Upravená hodnota            \\ \hline
+				    Doba obsluhy mixéru             & 15 minut                             & 14 -- 17 minut rovnomìrnì   \\
+				    Doba èerpání 1 kila             & 12 sekund                            & 12 sekund                   \\
+				    Doba zpracování 1 kila          & 18 sekund                            & 18 sekund                   \\
+				    Porucha èepele na mixéru        & 1 krát do roka                       & (exp) 365 dnù               \\
+				    Zanesení filtru na mixéru       & 1 krát max 2 krát za 2 mìsíce        & (exp) 43 dnù                \\
+				    Zatvrdnutí èokolády             & 1 krát do mìsíce                     & (exp) 30 dní                \\
+				    Zavzdu¹nìní stroje              & 1 krát za 14 dní                     & (exp) 14 dní                \\
+				    Doba opravy èepele mixéru       & Do týdne to je opravené              & (exp) 5 dní                 \\
+				    Výmìna/vyèi¹tìní filtru         & 1 -- 4 hodiny, zále¾í na technikovi  & 1 -- 4 hodiny rovnomìnì     \\
+				    Oprava èerpadla                 & 30 -- 40 minut                       & 30 -- 40 minut rovnomìrnì   \\
+				    Odvzdu¹nìní stroje              & kolem 15 minut                       & (exp) 15 minut              \\ \hline
+			    \end{tabular}
+				\caption{Tabulka zobrazující data získaná z prùzkumu a jejich upravené hodnoty na základì experimentu.}
+				\label{table:data}
+			\end{table}
+
+	\section{Rozbor tématu a pou¾itých metod a technologií}
+		Pro tvorbu simulaèního mohelu procesu zpracování èokolády je nezbytné
+		znát, jak takový proces probíhá. Samotný proces je podrobnì popsán v kapitole
+		\ref{zapracovani_cokolady}.
+
+		\subsection{Popis pou¾itých postupù}
+			Pro tvorbu simulaèního projektu byl pou¾it jazyk C\texttt{++} s knihovou
+			SIMLIB TODO\_CITACE. C\texttt{++} je objektovì orientovaný návrh a spolu s knihovnou
+			SIMLIB je ideálním nástrojem pro simulaci tohoto modelu.
+
+		\subsection{Pùvod pou¾itých metod a technologií}
+			Autorem knihovny SIMLIB je Peringer Peter. Pou¾ité konstrukce
+			jsou pøevzaty z TODO\_POUZITE\_KONSTRUKCE
+
+	\section{Koncepce modelu}
+		Cílem projektu je simulovat proces zpracování èokolády na lince a ovìøit
+		efektivnost výroby, popøípadì navrhnout efektivnìj¹í systém. Simulace
+		se nezamìøuje na celý proces zpracování, ale pouze na èást, kde se èokoláda
+		pøipravuje na dal¹í zpracování, tato èást je spoleèná pro vorbu vìt¹iny
+		produktù firmy LION PRODUCTS, s.r.o. V tomto modelu budeme pracovat s
+		èokoládou typu Callebaut, u této èokolády odpovídají hodnoty uvedené v
+		tabulce \ref{table:data}, u ostatních druhù èokolády by se data mírnì li¹ila.
+
 
 \end{document}
