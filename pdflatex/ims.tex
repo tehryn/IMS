@@ -1,0 +1,150 @@
+\documentclass[11pt,a4paper,titlepage]{article}
+\usepackage[left=1.5cm,text={18cm, 25cm},top=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage[czech]{babel}
+\usepackage[latin2]{inputenc}
+\bibliographystyle{czplain}
+\usepackage{etoolbox}
+\apptocmd{\thebibliography}{\raggedright}{}{}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1em}
+\sloppy
+
+\begin{document}
+
+		\setstretch{0.5}
+		\begin{center}
+
+			\includegraphics[width = 150mm]{logo.png}\\
+
+			\vspace{\stretch{0.382}}
+
+			\LARGE
+			Modelování a simulace\\
+			Zadání è. 2 -- Zpracování surové èokolády\\
+			\vspace{\stretch{0.618}}
+
+		\end{center}
+
+	\Large{\today} \hfill Jiøí Matìjka, Miroslava Mí¹ová
+	\thispagestyle{empty}
+	\newpage
+	\setcounter{page}{1}
+
+    \tableofcontents
+	\newpage
+	\newpage
+
+    \section{Úvod}
+        Tato práce vzinka jako projekt do pøedmìtu Modelování a simulace na ¹kole
+		Vysoké uèení technické v Brnì. Práce se zabívá simulací modelu zpracování
+		surové èokolády v halách spoleènosti LION PRODUCTS, s.r.o. Smyslem projektu
+		je pomocí simulaèních experimentù zjistit, zda jsou jednotlivé stroje,
+		provádìjící dílèí kroky zpracování èokolády, efektivnì zapojeny do výroby,
+		popøípadì najít efektivnìj¹í øe¹ení.
+
+		\subsection{Podìkování}
+			Na úvod bych chtìl podìkovat Pavlu Dobovi, který mi byl ochoten vìnovat
+			svùj èas a pøedal mi stì¾ejní informace pro vypracování tohoto projektu.
+
+		\subsection{Zdroje informací}
+			Ve¹keré potøebné informace jsem získal od Pavla Duby, zamìstnance
+			spoleènosti LION PRODUCTS, s.r.o. Na základì rozhovoru s ním jsem
+			získal potøebné vìdomosti k sestavení abstraknho modelu. Nejslab¹ím
+			místem modelu jsou pøibli¾né èasové údaje, kdy nastávají poruchy
+			na strojích. Tyto nedostatky ale byly odstranìny experimenty a
+			následnou konzultací, jak prùbìh simulace odpovídal reálnému provozu.
+
+	\section{Zpracování surové èokolády}
+		Jedna linka, zpracovávající èokoládu se skládá ze tøí strojù, dvou nádob a
+		jednoho pásu. Stroje jsou mixér, èerpadlo a stroj tvoøící výrobky.
+		Mixér drtí a taví èokoládu. Poté co je ve¹kerá èokoláda v tekutém stavu,
+		z mixéru putuje do nádoby, ze které ji zaène èerpadlo postupnì pøeèerpávat
+		do nádoby u stroje tvoøícího výrobky, který ji postupnì zpraovává a
+		umis»uje výtobky na pás, kde probíhá odchytávání vadných kusù a pøesouvání
+		výrobkù dál do zpracování. Zmetky jsou pøi nejbli¾¹í obsluze mixéru znovu
+		roztaveny a zpracovány.
+
+		\subsection{Zpracování èokolády na jednotlivých strojích}
+			Mixér, stejnì jako nádoba za ním, má kapacitu 100kg, ale umys»uje se
+			do nìj 50kg èokolády, aby se zabránilo tvrdnutí èokolády v nádobì a
+			v èerpadle. Mixování èokolády trvá 14-17 minut rovnomìrnì a provádí se
+			pøi teplotì 32 °C. Èokoláda se
+			následnì pøelévá do nádoby a soubì¾nì je spu¹tìno èerpadlo, které je schopné
+			pøeèerpat 1 litr èokolády za 12 sekund. Èerpadlo pøeèerpává èokoládu do
+			nádoby o kapacitì 40 kilo èokolády a zpracování jednoho kila èokolády
+			stroji trvá 18 sekund. Zmetkovitost tohoto stroje je pøibli¾nì (pøesný údaj
+			nebyl zji¹tìn) 10 \%. Detekce zmetkù je provádìna na pásu a trvá 8-11 minut
+			rovnomìrnì.
+
+		\subsection{Poruchy nastávající bìhem zpracování èokolády}
+			\subsubsection{Mixér}
+				Na mixéru nastávají hned 2 poruchy. První a záva¾nìj¹í porucha nastává
+				na èepeli mixéru a tehdy se mixér musí rozebrat, èelep vymìnit a stroj
+				seøídit. Nastání této události je dáno exponenciálním rozlo¾ením se
+				støedem 365 dnù. Doba opravy èepele a seøízení stroje je dána exponenciálním
+				rozlo¾ením se støedem 5 dnù.
+
+				Druhou poruchou je ucpání filtru. To je zpùsobeno,
+				kdy¾ je èokoláda nedokonale vyjmuta z obalu a kousek igelitového
+				obalu je vlo¾eno do mixéru spolu s èokoládou. Filtr se èase ucpe
+				a musí se vymìnit v intervalu daném exponencionálnímu rozlo¾ení se
+				støedem 43 dnù. Doba opravy trvá 1 -- 4 hodiny rovnomìrnì.
+
+			\subsubsection{Èerpadlo}
+				Na èerpadle dochází pouze k jedné poru¹e a to je zpùsobeno zatvrdnutím
+				èokolády. Èokoláda tvrdne po 30 minutách v nádobì. Dále je zde lidský
+				faktor, kdy zamìstnanec neodèerpá ve¹kerou èokoládu z nádoby a odejde
+				na pauzu nebo kdy¾ mu je teplo a pro zví¹ení komfordu sní¾í teplotu
+				na mixéru. Selhání lidského faktoru je statisticky dáno
+				exponenciálním rozlo¾ením se støedem 30 dní. V pøípadì poruchy
+				je potøeba zavolat technika, který zahøívání na èerpadle a následnì
+				èerpadlo pøedá zpìt zamìstnanci. Doba odstávky èerpadla trvá
+				30 -- 40 minut rovnomìrnì.
+
+			\subsubsection{Stroj tvoøící výrobky}
+				Na tomto stroji dochází k zavzdu¹nìní. Zavzdu¹nìní stroje je dáno
+				exponenciálním rozlo¾ením se støedem 14 dní. Odvzdu¹nìní je dáno
+				exponenciálním rozlo¾ením se støedem 15 minut.
+
+		\subsection{Obsluha zamìstnanci}
+			Mixér, èerpadlo a stroj na výrobu èoloády obsluhuje dohromady jen jeden
+			zamìstnanec. Ten naplní mixér èokoládou a spustí ho. Bìhem doby, co je
+			mixér spu¹tìný musí u nìj zamìstnanec stát. Poté, co je èokoláda
+			dostateènì tekutá, vypne mixér a zaène plnit nádobu. Zatímco èokoláda
+			pøetéká do nádoby, zamìstnanec jde spustit èerpadlo a spolu s ním
+			se spustí i stroj tvoøící èokoládové výrobky. Zamìstnanec se posléze
+			pøemístí zpìt k mixéru a nádobì na èokoládu. V nádobì je otvor, na
+			který je napojeno èerpadlo, umístìn v levé èásti a tam zamìstnanec
+			hrne ve¹kerou èokoládu. Poté co odèerpá poslední zbytky èokolády,
+			vypíná se stroj na tvorbu výrobkù a jde se opìt plnit mixér.
+
+	\section{Experimenty}
+		Proto¾e údaje, které jsme získali, nebyli úplnì nejpøesnìj¹í, bylo tøeba
+		vytvoøit simulaèní model, udìlat pár experimentù a upøesnit zadané hodnoty.
+		Bohu¾el jsme na tuto èást nemìli tolik èasu a proto jsme vybrali ten experiment,
+		který se podle Pavla Duby nejvíce podobal realitì A dal¹í iteraci jsme neprovedli.
+		Tabulka \ref{table:data} ukazuje jak se upravené hodnoty li¹í od pùvodních hodnot.
+		\begin{table}
+			\centering
+		    \begin{tabular}{|l|l|l|}
+			\hline
+			    Údaj                            & Pùvodní hodnota                      & Upravená hodnota            \\ \hline
+			    Doba obsluhy mixéru             & 15 minut                             & 14 -- 17 minut rovnomìrnì   \\
+			    Doba èerpání 1 kila             & 12 sekund                            & 12 sekund                   \\
+			    Doba zpracování 1 kila          & 18 sekund                            & 18 sekund                   \\
+			    Porucha èepele na mixéru        & 1 do roka                            & (exp) 365 dnù               \\
+			    Zanesení filtru na mixéru       & 1 krát max 2 krát za 2 mìsíce                & (exp) 43 dnù        \\
+			    Zatvrdnutí èokolády             & jednou do mìsíce                     & (exp) 30 dní                \\
+			    Zavzdu¹nìní stroje              & jednou za 14 dní                     & (exp) 14 dní                \\
+			    Doba opravy èepele mixéru       & Do týdne to je opravené              & (exp) 5 dní                 \\
+			    Výmìna/vyèi¹tìní filtru         & 1 -- 4 hodiny, zále¾í na technikovi  & 1 -- 4 hodiny rovnomìnì     \\
+			    Oprava èerpadla                 & 30 -- 40 minut                       & 30 -- 40 minut rovnomìrnì   \\
+			    Odvzdu¹nìní stroje              & kolem 15 minut                       & (exp) 15 minut              \\ \hline
+		    \end{tabular}
+			\caption{Tabulka zobrazující data získaná z prùzkumu a jejich upravené hodnoty na základì experimentu.}
+			\label{table:data}
+		\end{table}
+
+\end{document}
