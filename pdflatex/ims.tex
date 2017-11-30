@@ -37,44 +37,44 @@
 	\newpage
 
     \section{Úvod}
-        Tato práce vzinka jako projekt do pøedmìtu Modelování a simulace na ¹kole
-		Vysoké uèení technické v Brnì. Práce se zabívá simulací modelu zpracování
+        Tato práce vznikla jako projekt do pøedmìtu Modelování a simulace na ¹kole
+		Vysoké uèení technické v Brnì. Práce se zabývá simulací modelu zpracování
 		surové èokolády v halách spoleènosti LION PRODUCTS, s.r.o. Smyslem projektu
-		je pomocí simulaèních experimentù zjistit, zda jsou jednotlivé stroje,
-		provádìjící dílèí kroky zpracování èokolády, efektivnì zapojeny do výroby,
+		je pomocí simulaèních experimentù zjistit, zda jsou jednotlivé stroje
+		provádìjící dílèí kroky zpracování èokolády efektivnì zapojeny do výroby,
 		popøípadì najít efektivnìj¹í øe¹ení.
 
 		\subsection{Autoøi}
-			Na úvod bych chtìl podìkovat Pavlu Dobovi, který mi byl ochoten vìnovat
+			Na úvod bych chtìl podìkovat Pavlu Dubovi, který mi byl ochoten vìnovat
 			svùj èas a pøedal nám stì¾ejní informace pro vypracování tohoto projektu.
 			Samotnými autory projektu jsou studenti Jiøí Matìjka a Miroslava Mí¹ová.
 
 		\subsection{Zdroje informací}
-			Ve¹keré potøebné informace jseme získali od Pavla Duby, zamìstnance
+			Ve¹keré potøebné informace jsme získali od Pavla Duby, zamìstnance
 			spoleènosti LION PRODUCTS, s.r.o. Na základì rozhovoru s ním jsme
-			získal potøebné vìdomosti k sestavení abstraknho modelu. Nejslab¹ím
+			získali potøebné vìdomosti k sestavení abstraknho modelu. Nejslab¹ím
 			místem modelu jsou pøibli¾né èasové údaje, kdy nastávají poruchy
-			na strojích. Tyto nedostatky ale byli minimalizovány dal¹ími rozhovory
+			na strojích. Tyto nedostatky ale byly minimalizovány dal¹ími rozhovory
 			se zamìstnancem.
 
 	\section{Zpracování èokolády} \label{zapracovani_cokolady}
 		Jedna linka, zpracovávající èokoládu se skládá ze tøí strojù, dvou nádob a
 		jednoho pásu. Stroje jsou mixér, èerpadlo a stroj tvoøící výrobky.
-		Mixér drtí a taví èokoládu. Poté co je ve¹kerá èokoláda v tekutém stavu,
-		z mixéru putuje do nádoby, ze které ji zaène èerpadlo postupnì pøeèerpávat
-		do nádoby u stroje tvoøícího výrobky, který ji postupnì zpraovává a
-		umis»uje výtobky na pás, kde probíhá odchytávání vadných kusù a pøesouvání
+		Mixér drtí a taví èokoládu. Jakmile je ve¹kerá èokoláda v tekutém stavu,
+		putuje z mixéru dále do nádoby. Odtud ji zaène èerpadlo postupnì pøeèerpávat
+		do nádoby u stroje tvoøícího výrobky, který ji postupnì zpracovává a
+		umis»uje výrobky na pás, kde probíhá odchytávání vadných kusù a pøesouvání
 		výrobkù dál do zpracování. Zmetky jsou pøi nejbli¾¹í obsluze mixéru znovu
 		roztaveny a zpracovány.
 
 		\subsection{Zpracování èokolády na jednotlivých strojích}
-			Mixér, stejnì jako nádoba za ním, má kapacitu 100kg, ale umys»uje se
+			Mixér, stejnì jako nádoba za ním, má kapacitu 100 kg, ale umis»uje se
 			do nìj 50kg èokolády, aby se zabránilo tvrdnutí èokolády v nádobì a
 			v èerpadle. Mixování èokolády trvá 14-17 minut rovnomìrnì a provádí se
-			pøi teplotì 32 °C. Èokoláda se
-			následnì pøelévá do nádoby a soubì¾nì je spu¹tìno èerpadlo, které je schopné
-			pøeèerpat 1 litr èokolády za 12 sekund. Èerpadlo pøeèerpává èokoládu do
-			nádoby o kapacitì 40 kilo èokolády a zpracování jednoho kila èokolády
+			pøi teplotì 32 °C.
+			Èokoláda se následnì pøelévá do nádoby. Poté je spu¹tìno èerpadlo, které je schopné
+			pøeèerpat 1 kilogram èokolády za 12 sekund. Èerpadlo pøeèerpává èokoládu do
+			nádoby stroje o kapacitì 40 kg èokolády a zpracování jednoho kila èokolády
 			stroji trvá 18 sekund. Zmetkovitost tohoto stroje je pøibli¾nì (pøesný údaj
 			nebyl zji¹tìn) 10 \%. Detekce zmetkù je provádìna na pásu a trvá 8-11 minut
 			rovnomìrnì.
@@ -83,54 +83,51 @@
 			Na v¹ech strojích na lince mù¾e dojít k poruchám.
 
 			\subsubsection{Mixér}
-				Na mixéru nastávají hned 2 poruchy. První a záva¾nìj¹í porucha nastává
-				na èepeli mixéru a tehdy se mixér musí rozebrat, èelep vymìnit a stroj
-				seøídit. Nastání této události je dáno exponenciálním rozlo¾ením se
-				støedem 365 dnù. Doba opravy èepele a seøízení stroje je dána exponenciálním
-				rozlo¾ením se støedem 5 dnù.
-
-				Druhou poruchou je ucpání filtru. To je zpùsobeno,
+				Na mixéru nastávají hned 2 poruchy.
+				První poruchou je ucpání filtru. To je zpùsobeno,
 				kdy¾ je èokoláda nedokonale vyjmuta z obalu a kousek igelitového
-				obalu je vlo¾eno do mixéru spolu s èokoládou. Filtr se èase ucpe
-				a musí se vymìnit v intervalu daném exponencionálnímu rozlo¾ení se
+				obalu je vlo¾en do mixéru spolu s èokoládou. Filtr se èasem ucpe,
+				a musí se vymìnit v intervalu daném exponencionálním rozlo¾ením se
 				støedem 43 dnù. Doba opravy trvá 1 -- 4 hodiny rovnomìrnì.
 
+				Druhá a záva¾nìj¹í porucha nastává na èepeli mixéru. Tehdy se mixér musí rozebrat,
+				èepel vymìnit a stroj seøídit. Tato událost nastává s exponenciálním rozlo¾ením se
+				støedem 365 dnù. Doba opravy èepele a seøízení stroje je dána exponenciálním
+				rozlo¾ením se støedem 5 dnù. Bìhem této doby dojde i k výmìnì filtru.
+
+
 			\subsubsection{Èerpadlo}
-				Na èerpadle dochází pouze k jedné poru¹e a to je zpùsobeno zatvrdnutím
-				èokolády. Èokoláda tvrdne po 30 minutách v nádobì. Dále je zde lidský
-				faktor, kdy zamìstnanec neodèerpá ve¹kerou èokoládu z nádoby a odejde
-				na pauzu nebo kdy¾ mu je teplo a pro zví¹ení komfordu sní¾í teplotu
-				na mixéru. Selhání lidského faktoru je statisticky dáno
-				exponenciálním rozlo¾ením se støedem 30 dní. V pøípadì poruchy
-				je potøeba zavolat technika, který zahøívání na èerpadle a následnì
-				èerpadlo pøedá zpìt zamìstnanci. Doba odstávky èerpadla trvá
-				30 -- 40 minut rovnomìrnì.
+				Na èerpadle dochází pouze k jediné poru¹e, a to je zpùsobeno zatvrdnutím
+				èokolády. Èokoláda tvrdne po 30 minutách, kdy je v nádobì.
+				V pøípadì poruchy se rozehøeje èerpadlo a nádoba, a následnì do konce èerpání
+				je ohøev pu¹tìn. Doba ne¾ je èerpadlo mo¾né opìt spustit trvá 30 -- 40 minut rovnomìrnì.
 
 			\subsubsection{Stroj tvoøící výrobky}
 				Na tomto stroji dochází k zavzdu¹nìní. Zavzdu¹nìní stroje je dáno
 				exponenciálním rozlo¾ením se støedem 14 dní. Odvzdu¹nìní je dáno
-				exponenciálním rozlo¾ením se støedem 15 minut.
+				exponenciálním rozlo¾ením se støedem 15 minut. Tuto opravu zvládne zamìstnanec.
 
 		\subsection{Obsluha zamìstnanci}
-			Mixér, èerpadlo a stroj na výrobu èoloády obsluhuje dohromady jen jeden
+			Mixér, èerpadlo a stroj na výrobu èokolády obsluhuje dohromady jen jeden
 			zamìstnanec. Ten naplní mixér èokoládou a spustí ho. Bìhem doby, co je
 			mixér spu¹tìný musí u nìj zamìstnanec stát. Poté, co je èokoláda
-			dostateènì tekutá, vypne mixér a zaène plnit nádobu. Zatímco èokoláda
-			pøetéká do nádoby, zamìstnanec jde spustit èerpadlo a spolu s ním
+			dostateènì tekutá, vypne mixér a zaène plnit nádobu. Jakmile èokoláda
+			pøeteèe do nádoby, zamìstnanec jde spustit èerpadlo a spolu s ním
 			se spustí i stroj tvoøící èokoládové výrobky. Zamìstnanec se posléze
 			pøemístí zpìt k mixéru a nádobì na èokoládu. V nádobì je otvor, na
 			který je napojeno èerpadlo, umístìn v levé èásti a tam zamìstnanec
 			hrne ve¹kerou èokoládu. Poté co odèerpá poslední zbytky èokolády,
-			vypíná se stroj na tvorbu výrobkù a jde se opìt plnit mixér. Detekce
-			zmetkù je provádìna v dal¹í èásti zpracování. Toto je v modelu
+			vypíná se stroj na tvorbu výrobkù, a jde se opìt plnit mixér.
+
+			Detekce	zmetkù je provádìna v jiné èásti výroby. Toto je v modelu
 			zjednodu¹eno a poèítá se pouze s èasovou prodlevou, ne¾ se vadné
-			kusy vrátí zpìt na zaèátek procesu. Model to ovlivní vùbec neovlivní,
+			kusy vrátí zpìt na zaèátek procesu. Model to vùbec neovlivní,
 			proto¾e pøi plnìní mixéru je úplnì jedno, zda vlo¾ený kus èokolády je
 			zmetek nebo je¹tì nezpracovaný kus.
 
 		\subsection{Upøesnìní získaných dat}
-			Pro správné fungování simulaèního modelu bylo upøesnit zadaná data. Z
-			dal¹ích konzultací s Pavlem Dubou jsme dospìli k výsledkým uvedené
+			Pro správné fungování simulaèního modelu bylo nutné upøesnit zadaná data. Z
+			dal¹ích konzultací s Pavlem Dubou jsme dospìli k výsledkùm uvedených
 			v tabulce \ref{table:data}. Pøesto¾e údaje jsou ji¾ pøesnìj¹í, model
 			systému bude tøeba je¹tì validovat a verifikovat.
 
@@ -156,26 +153,26 @@
 			\end{table}
 
 	\section{Rozbor tématu a pou¾itých metod a technologií}
-		Pro tvorbu simulaèního mohelu procesu zpracování èokolády je nezbytné
+		Pro tvorbu simulaèního modelu procesu zpracování èokolády je nezbytné
 		znát, jak takový proces probíhá. Samotný proces je podrobnì popsán v kapitole
 		\ref{zapracovani_cokolady}.
 
 		\subsection{Popis pou¾itých postupù}
-			Pro tvorbu simulaèního projektu byl pou¾it jazyk C\texttt{++} s knihovou
-			SIMLIB TODO\_CITACE. C\texttt{++} je objektovì orientovaný návrh a spolu s knihovnou
+			Pro tvorbu simulaèního projektu byl pou¾it jazyk C\texttt{++} s knihovnou
+			SIMLIB TODO\_CITACE. C\texttt{++} je objektovì orientovaný jazyk, a spolu s knihovnou
 			SIMLIB je ideálním nástrojem pro simulaci tohoto modelu.
 
 		\subsection{Pùvod pou¾itých metod a technologií}
-			Autorem knihovny SIMLIB je Peringer Peter. Pou¾ité konstrukce
+			Autorem knihovny SIMLIB je Dr. Ing. Petr Peringer a spoluautory Ing. David Le¹ka a Ing. David Martinek. Pou¾ité konstrukce
 			jsou pøevzaty z TODO\_POUZITE\_KONSTRUKCE
 
 	\section{Koncepce modelu}
 		Cílem projektu je simulovat proces zpracování èokolády na lince a ovìøit
 		efektivnost výroby, popøípadì navrhnout efektivnìj¹í systém. Simulace
 		se nezamìøuje na celý proces zpracování, ale pouze na èást, kde se èokoláda
-		pøipravuje na dal¹í zpracování, tato èást je spoleèná pro vorbu vìt¹iny
+		pøipravuje na dal¹í zpracování, tato èást je spoleèná pro výrobu vìt¹iny
 		produktù firmy LION PRODUCTS, s.r.o. V tomto modelu budeme pracovat s
-		èokoládou typu Callebaut, u této èokolády odpovídají hodnoty uvedené v
+		èokoládou typu Callebaut, pro kterou odpovídají hodnoty uvedené v
 		tabulce \ref{table:data}, u ostatních druhù èokolády by se data mírnì li¹ila.
 
 
