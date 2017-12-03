@@ -17,7 +17,7 @@
 #define KAPACITA_STROJ  40
 #define KAPACITA_NADOBA 100
 
-#define VSTUPNI_MNOZSTVI_COKOLADY 50
+#define VSTUPNI_MNOZSTVI_COKOLADY 76
 
 
 extern long unsigned int zmetci;
@@ -68,30 +68,10 @@ class Statistika: public Process {
 		std::cout << "Cas,Poruch cepel,Poruch filtru,Poruch stroje,Zatvrdnuti cokolady,Vyrobeno cokolady" << std::endl;
 		while (1) {
 			std::cout << jednotka_casu << ",";
-			if ( poruch_cepele ) {
-				std::cout << poruch_cepele << ",";
-			}
-			else {
-				std::cout << ",";
-			}
-			if ( poruch_filtr ) {
-				std::cout << poruch_filtr << ",";
-			}
-			else {
-				std::cout << ",";
-			}
-			if ( poruch_stroje ) {
-				std::cout << poruch_stroje << ",";
-			}
-			else {
-				std::cout << ",";
-			}
-			if ( poruch_zatvrdnuti ) {
-				std::cout << poruch_zatvrdnuti << ",";
-			}
-			else {
-				std::cout << ",";
-			}
+			std::cout << poruch_cepele << ",";
+			std::cout << poruch_filtr << ",";
+			std::cout << poruch_stroje << ",";
+			std::cout << poruch_zatvrdnuti << ",";
 			std::cout << vyrobeno_cokolady/1000.0 << std::endl;
 			jednotka_casu++;
 			poruch_stroje     = 0;
@@ -99,7 +79,7 @@ class Statistika: public Process {
 			poruch_filtr      = 0;
 			poruch_zatvrdnuti = 0;
 			vyrobeno_cokolady = 0;
-			Wait( DEN );
+			Wait( DEN * 7 );
 		}
 	}
 };
