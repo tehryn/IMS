@@ -20,16 +20,23 @@ unsigned mixer_obsazeno  = 0;
 unsigned nadoba_obsazeno = 0;
 unsigned stroj_obsazeno  = 0;
 
+unsigned VSTUPNI_MNOZSTVI_COKOLADY = 50;
+
 long unsigned int zmetci = 0;
 
 long long unsigned int vyrobeno_cokolady = 0;
 
-int main(/*int argc, char const *argv[]*/) {
+int main(int argc, char const *argv[]) {
+	if ( argc ) {
+		VSTUPNI_MNOZSTVI_COKOLADY = atoi( argv[1] );
+	}
 	info( "Zaciname!" );
+	debug( "Vstupni mnozstvi cokolady", VSTUPNI_MNOZSTVI_COKOLADY );
 	Init( 0, 3650 * DEN );
-	(new Zavzdusneni)->Activate( Exponential( 14 * DEN ) );
+	Zavzdusneni * zavzdusneni = new Zavzdusneni;
+	zavzdusneni->Activate( Exponential( 14 * DEN ) );
 	(new Ucpani_filtru)->Activate( Exponential( 43 * DEN ) );
-	(new Porucha_cepele)->Activate( Exponential( 365 * DEN ) );
+	(new Porucha_cepele(zavzdusneni))->Activate( Exponential( 365 * DEN ) );
 	(new Zamestnanec)->Activate();
 	(new Statistika)->Activate( DEN * 7 );
 	(new Pracovni_doba)->Activate();

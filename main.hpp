@@ -17,8 +17,7 @@
 #define KAPACITA_STROJ  40
 #define KAPACITA_NADOBA 100
 
-#define VSTUPNI_MNOZSTVI_COKOLADY 76
-
+extern unsigned VSTUPNI_MNOZSTVI_COKOLADY;
 
 extern long unsigned int zmetci;
 extern long long unsigned int vyrobeno_cokolady;
@@ -95,33 +94,15 @@ class Zavzdusneni: public Event {
 
 class Oprava_cepele: public Process {
 	void Behavior() {
-		info( "Technik: Opravuji cepel" );
+		info( "Technik: Chci mixer, abych opravil cepel" );
 		Seize( mixer, 3 );
-		Wait( Uniform( MINUTA * 40, MINUTA * 50 ) );
+		info( "Technik: Opravuji cepel" );
+		zmetci += mixer_obsazeno;
+		mixer_obsazeno = 0;
+		Wait( Exponential( 5 * DEN ) );
 		rozbita_cepel = false;
 		Release( mixer );
 		info( "Technik: cepel opravena" );
-	}
-};
-
-class Porucha_cepele: public Event {
-	void Behavior() {
-		info( "Porucha: Rozbila se cepel" );
-		rozbita_cepel = true;
-		poruch_cepele++;
-		( new Oprava_cepele )->Activate();
-		Activate( Time + Exponential( 365 * DEN ) );
-	}
-};
-
-class Oprava_filtru: public Process {
-	void Behavior() {
-		info( "Technik: Opravuji filtr" );
-		Seize( mixer, 3 );
-		Wait( Uniform( HODINA * 1, HODINA * 4 ) );
-		zaneseny_filtr = false;
-		Release( mixer );
-		info( "Technik: Filtr opraven." );
 	}
 };
 
@@ -130,8 +111,35 @@ class Ucpani_filtru: public Event {
 		info( "Porucha: Zaneseny filtr" );
 		zaneseny_filtr = true;
 		poruch_filtr++;
-		( new Oprava_filtru )->Activate();
 		Activate( Time + Exponential( 43 * DEN ) );
+	}
+};
+
+class Porucha_cepele: public Event {
+	Event * ptr;
+public:
+	Porucha_cepele( Event * e ) : ptr(e) {}
+	void Behavior() {
+		info( "Porucha: Rozbila se cepel" );
+		delete ptr;
+		rozbita_cepel = true;
+		poruch_cepele++;
+		( new Oprava_cepele )->Activate();
+		Activate( Time + Exponential( 365 * DEN ) );
+		ptr = new Ucpani_filtru();
+		ptr->Activate( Time + Exponential( 43 * DEN ) );
+	}
+};
+
+class Oprava_filtru: public Process {
+	void Behavior() {
+		info( "Technik: Chci mixer, abych opravil filtr." );
+		Seize( mixer, 0 );
+		info( "Technik: Opravuji filtr" );
+		Wait( Uniform( HODINA * 1, HODINA * 4 ) );
+		zaneseny_filtr = false;
+		Release( mixer );
+		info( "Technik: Filtr opraven." );
 	}
 };
 
@@ -162,7 +170,7 @@ public:
 		Activate( Time + Uniform( MINUTA * 15, MINUTA * 20 ) );
 	}
 	void Behavior() {
-		info( "Pozastavuji zamestnance." );
+		info( "Porucha: Zatvrdla cokolada, zacinam proces rozehrivani." );
 		poruch_zatvrdnuti++;
 		ptr->Wait( Uniform( MINUTA * 30, MINUTA * 40 ) );
 	}
@@ -171,49 +179,37 @@ public:
 class Zamestnanec: public Process {
 private:
 	void odvzdusni_stroj() {
-		info( "Zamestnanec: Je zavzdusneno, cekam na stroj" );
 		Seize( stroj, 0 );
-		info( "Zamestnanec: Je zavzdusneno, mam stroj" );
+		info( "Zamestnanec: Odvzdusnuji stroj." );
 		Wait( Exponential( MINUTA * 15 ) );
 		zavzdusneno = false;
-		info( "Zamestnanec: Je Odvzdusneno" );
 		Release( stroj );
 	}
 
-	void rozehrej_cokoladu() {
-		Wait( Uniform( MINUTA * 30, MINUTA * 40 ) );
-		info( "Zamestnanec: Cokoladu jsem rozehral" );
-		cokolada_zatvrdla = false;
-	}
-
 	void obsluhuj_mixer() {
-		// chci mixer
-		Seize(mixer, 1);
-		info( "Zamestnanec: Mam mixer" );
-		debug( "Zamestnanec: Aktualni pocet zmentku", zmetci );
-		// do mixeru hodim vsechny zmetky
-		if ( zmetci < VSTUPNI_MNOZSTVI_COKOLADY ) {
-			zmetci = 0;
+		// Pokud je u cerpadla nejaka cokolada, nebudu mixovat!
+		if ( nadoba_obsazeno > 0 ) {
+			info( "Zamestnanec: V nadobe na cokoladu neco je, musim to prvne zpracovat." );
+			return;
 		}
-		else {
-			zmetci -= VSTUPNI_MNOZSTVI_COKOLADY;
+		Seize(mixer, 1); // Zamestnanec chce mixer
+		debug( "Zamestnanec: Zacinam plnit mixer, momentalne v nem je cokolady", mixer_obsazeno );
+		// Zamestnanec ma mixer a zacina ho plnit
+		for( unsigned i = mixer_obsazeno; i < VSTUPNI_MNOZSTVI_COKOLADY && i < KAPACITA_MIXER; i++ ) {
+			if ( zmetci > 0 ) {
+				zmetci--;
+			}
+			Wait( Uniform( 3 * SEKUNDA, 5 * SEKUNDA ) );
+			mixer_obsazeno++;
+			debug( "Zamestnanec: Dal jsem kilo cokolady do mixeru, momentalne v nem je cokolady", mixer_obsazeno );
 		}
-		debug( "Zamestnanec: Novy pocet zmetku", zmetci );
-		info( "Zamestnanec: Cekam az bude v kadi dostatek mista" );
-		WaitUntil( KAPACITA_MIXER >= ( mixer_obsazeno + VSTUPNI_MNOZSTVI_COKOLADY ) );
-		mixer_obsazeno += VSTUPNI_MNOZSTVI_COKOLADY;
-		// Zamestnanec ma naplneny mixer cokoladou
-		info( "Zamestnanec: mixuji" );
-		// Zamestnanec spousti mixer
+		debug( "Zamestnanec: Mixer je naplnen, jdu mixovat, je v nem cokolady", mixer_obsazeno );
+		// Mixer je naplnen a zaciname mixovat
 		Wait( Uniform( 14 * MINUTA , 17 * MINUTA ) );
-		info( "Zamestnanec: Domixovano" );
-		WaitUntil( KAPACITA_NADOBA >= ( nadoba_obsazeno + VSTUPNI_MNOZSTVI_COKOLADY ) );
-		nadoba_obsazeno += VSTUPNI_MNOZSTVI_COKOLADY;
-		// Za mixerem je dostatek mista v kadi na cokoladu
-		for( int i = 0; i < VSTUPNI_MNOZSTVI_COKOLADY; i++ ) {
-			mixer_obsazeno--;
-		}
+		nadoba_obsazeno += mixer_obsazeno;
+		mixer_obsazeno = 0;
 		Release(mixer);
+		info( "Zamestnanec: Odchazim od mixeru." );
 	}
 
 	void pln_cerpadlo() {
@@ -226,30 +222,23 @@ private:
 		Release( cerpadlo );
 	}
 
-public:
 	void Behavior() {
 		while ( 1 ) {
-			info ( "Hura do prace." );
 			WaitUntil( pracovni_doba );
-			info ( "Jsem v praci." );
+			info( "Zamestnanec: Prisel jsem do prace" );
 			if ( zavzdusneno ) {
+				info( "Zamestnanec: Zavzdusnil se mi stroj" );
 				odvzdusni_stroj();
+				info( "Zamestnanec: Zavzdusneny stroj je znovu funkcni" );
 				continue;
 			}
-			info( "Zamestnanec: Chci mixer" );
 			obsluhuj_mixer();
 			Tvrdnuti_cokolady * tvrdnuti = new Tvrdnuti_cokolady( this );
 			while ( nadoba_obsazeno > 0 ) {
-				info( "Zamestnanec: Jsem u cerpadla" );
 				WaitUntil( stroj_obsazeno < KAPACITA_STROJ );
 				stroj_obsazeno++;
-				if ( cokolada_zatvrdla ) {
-					info("Zamestnanec: Zatvrdla mi cokolada");
-					rozehrej_cokoladu();
-					continue;
-				}
 				pln_cerpadlo();
-				debug( "Zamestnanec: Presunul jsem kilo cokolady, zbyva", nadoba_obsazeno );
+				debug( "Zamestnanec: Precerpal jsem kilo cokolady, zbyva", nadoba_obsazeno );
 			}
 			delete tvrdnuti;
 		}
