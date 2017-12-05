@@ -41,6 +41,7 @@ int main(int argc, char const *argv[]) {
 	(new Statistika)->Activate( DEN * 7 );
 	(new Pracovni_doba)->Activate();
 	Run();
+	mixer.Output();
 	info( "Koncime!" );
 	return 0;
 }

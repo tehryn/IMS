@@ -121,21 +121,23 @@ public:
 	Porucha_cepele( Event * e ) : ptr(e) {}
 	void Behavior() {
 		info( "Porucha: Rozbila se cepel" );
-		delete ptr;
+		//delete ptr;
 		rozbita_cepel = true;
 		poruch_cepele++;
 		( new Oprava_cepele )->Activate();
 		Activate( Time + Exponential( 365 * DEN ) );
-		ptr = new Ucpani_filtru();
-		ptr->Activate( Time + Exponential( 43 * DEN ) );
+		//ptr = new Ucpani_filtru();
+		//ptr->Activate( Time + Exponential( 43 * DEN ) );
 	}
 };
 
 class Oprava_filtru: public Process {
 	void Behavior() {
 		info( "Technik: Chci mixer, abych opravil filtr." );
-		Seize( mixer, 0 );
+		Seize( mixer, 1 ); // Pokud se mixuje, oprava filtru pocka
 		info( "Technik: Opravuji filtr" );
+		zmetci += mixer_obsazeno;
+		mixer_obsazeno = 0;
 		Wait( Uniform( HODINA * 1, HODINA * 4 ) );
 		zaneseny_filtr = false;
 		Release( mixer );
@@ -179,7 +181,7 @@ public:
 class Zamestnanec: public Process {
 private:
 	void odvzdusni_stroj() {
-		Seize( stroj, 0 );
+		Seize( stroj, 0 ); // Odvzdusnovat se zacne, az stroj prestane pracovat
 		info( "Zamestnanec: Odvzdusnuji stroj." );
 		Wait( Exponential( MINUTA * 15 ) );
 		zavzdusneno = false;
