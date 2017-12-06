@@ -154,6 +154,8 @@ class Porucha_cepele: public Process {
 			// (nastesti) neni treba resit vikendy. V noci se samozrejmne neopravuje
 			// ale to je zahrnuto uz v dobe opravi.
 			Wait( Uniform( DEN * 4, DEN * 7 ) );
+			// Mixer mohu predat zamestnanci az behem pracovni doby
+			WaitUntil( pracovni_doba );
 			Release( mixer );
 			info( "Technik: cepel opravena" );
 			Wait( Exponential( 365 * DEN ) );

@@ -40,7 +40,7 @@ clean:
 	rm -f main.o chocolate provoz.txt example example.o porucha_stroje porucha_cepele porucha_filtru porucha_stroje.o porucha_cepele.o porucha_filtru.o
 
 run: example
-	echo "\033[0;31mSpoustim simulaci tydeniho provozu. Statistika bude na stdout, popis toho, co se deje v case bude v souboru provoz.txt\033[0m"
+	printf "\033[0;31mSpoustim simulaci tydeniho provozu. Statistika bude na stdout, popis toho, co se deje v case bude v souboru provoz.txt\n\033[0m"
 	./example 50 2>provoz.txt
 
 experiments: porucha_cepele porucha_filtru porucha_stroje chocolate

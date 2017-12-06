@@ -4,12 +4,23 @@
 \usepackage{graphicx}
 \usepackage[czech]{babel}
 \usepackage[latin2]{inputenc}
+\usepackage{float}
+\usepackage{color}
+\usepackage{hyperref}
 \bibliographystyle{czplain}
 \usepackage{etoolbox}
 \apptocmd{\thebibliography}{\raggedright}{}{}
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{1em}
 \sloppy
+
+\hypersetup{
+	colorlinks=true,
+	linktoc=all,
+	linkcolor=blue,
+	citecolor=red,
+	urlcolor=blue,
+}
 
 \begin{document}
 
@@ -46,7 +57,7 @@
 		popøípadì najít efektivnìj¹í øe¹ení.
 
 		\subsection{Autoøi}
-			Na úvod bych chtìl podìkovat Pavlu Dubovi, který mi byl ochoten vìnovat
+			Na úvod bychom chtìli podìkovat Pavlu Dubovi, který mi byl ochoten vìnovat
 			svùj èas a pøedal nám stì¾ejní informace pro vypracování tohoto projektu.
 			Samotnými autory projektu jsou studenti Jiøí Matìjka a Miroslava Mí¹ová.
 
@@ -168,7 +179,7 @@
 
 		\subsection{Pùvod pou¾itých metod a technologií}
 			Autorem knihovny SIMLIB je Dr. Ing. Petr Peringer a spoluautory Ing. David Le¹ka a Ing. David Martinek. Pou¾ité konstrukce
-			jsou pøevzaty z TODO\_POUZITE\_KONSTRUKCE.
+			jsou pøevzaty z pøíkladù konstrukcí \cite{web:simlib_examples}.
 
 	\section{Koncepce modelu}
 		Cílem projektu je simulovat proces zpracování èokolády na lince a ovìøit
@@ -183,16 +194,27 @@
 	    Pøedná¹ka IMS\cite{web:prednasky} strany 123 -- 135},
 		na základì informací zji¹tìných v kapitole \ref{zapracovani_cokolady}.
 		Tuto sí» mù¾ete vidìt na obrázku \ref{fig:sit-komplet}.
-		\begin{figure}[!htbp]
-		\begin{center}
-			\includegraphics[scale=0.25]{../navrh/navrh-petriho_sit-cerna.png}
-			\caption{Kompletní sí»}
-			\label{fig:sit-komplet}
-		\end{center}
-		\end{figure}
 
 		Kvùli její komlikovanosti jsme se ji v¹ak následnì rozhodli rozdìlit do nìkolika obrázkù,
 		které by lépe vysvìtlovali jednotlivé situace, jako napøíklad poruchy na jednotlivých strojích.
+
+		Obrázek \ref{fig:sit-pracovni_doba} reprezentuje pracovní dobu zamìstnance na lince.
+		Poté, co zamìstnanec pøíjde do práce, se spustí 15 hodinový odpoèet.
+		Po jeho uplynutí zamìstnanec dokonèí pracovní cyklus a znovu ji¾ nenaplòuje mixér.
+		Po 5 pracovních dnech následují 2 dny volna.
+
+		Obrázek \ref{fig:sit-mixer} reprezentuje obì zminované poruchy mixéru z kapitoly \ref{zapracovani_cokolady}.
+		Porucha je dána odpoètem, po jeho¾ uplynutí dojde k naru¹ení bì¾ného chodu.
+		Porucha èepele zablokuje mixér ihned a stroj je nutné opravit. Ve¹kerá èokoláda z mixéru je pøesunuta do nádoby na zmetky.
+		Porucha filtru nezastavuje bìh mixéru, ale je opravována, jakmile zamìstnanec pøemístí rozmixovanou èokoládu z mixéru do nádoby.
+
+		Obrázek \ref{fig:sit-zavzdusneni} reprezentuje problém vznikající zavzdu¹nìním stroje zpracovávajícího èokoládu.
+		Jakmile zamìstnanec zjistí, ¾e stroj je zavzdu¹nìn, vyèká ne¾ dokonèí stroj svoji èinnost, a následnì ho odvzdu¹ní.
+
+		Obrázek \ref{fig:sit-tvrdnuti} reprezentuje tvrdnutí èokolády v nádobì.
+		Èokoláda po 15 minutách v nádobì vychladne a není mo¾né ji èerpat.
+		Po vychladnutí èokolády se musí zahøát nádoba s èokoládou, aby bylo èerpadlo schopné èokoládu znovu èerpat.
+		To trvá 30 -- 40 minut rovnomìrnì.
 
 		Obrázek \ref{fig:sit-hlavni} reprezentuje výrobu èokolády bez jakýchkoliv poruch.
 		Zamìstnanec naplní mixér, spustí mixování trvající 14 -- 17 minut.
@@ -201,19 +223,8 @@
 		Stroj mezitím vytváøí èokoládové výrobky, které jsou následnì kontrolovány, zda jsou kvalitní.
 		Pokud se narazí na zmetky, jsou pøemístìny do nádoby, která koresponduje s nádobou na zmetky,
 		odkud nabírá èokoládu zamìstnanec.
-		\begin{figure}[!htbp]
-		\begin{center}
-			\includegraphics[scale=0.3]{../navrh/detaily/hlavni_cast.png}
-			\caption{Hlavní èást}
-			\label{fig:sit-hlavni}
-		\end{center}
-		\end{figure}
 
-		Obrázek \ref{fig:sit-pracovni_doba} reprezentuje pracovní dobu zamìstnance na lince.
-		Poté, co zamìstnanec pøíjde do práce, se spustí 15 hodinový odpoèet.
-		Po jeho uplynutí zamìstnanec dokonèí pracovní cyklus a znovu ji¾ nenaplòuje mixér.
-		Po 5 pracovních dnech následují 2 dny volna.
-		\begin{figure}[!htbp]
+		\begin{figure}[H]
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/pracovni_doba.png}
 			\caption{Pracovní doba}
@@ -221,11 +232,7 @@
 		\end{center}
 		\end{figure}
 
-		Obrázek \ref{fig:sit-mixer} reprezentuje obì zminované poruchy mixéru z kapitoly \ref{zapracovani_cokolady}.
-		Porucha je dána odpoètem, po jeho¾ uplynutí dojde k naru¹ení bì¾ného chodu.
-		Porucha èepele zablokuje mixér ihned a stroj je nutné opravit. Ve¹kerá èokoláda z mixéru je pøesunuta do nádoby na zmetky.
-		Porucha filtru nezastavuje bìh mixéru, ale je opravována, jakmile zamìstnanec pøemístí rozmixovanou èokoládu z mixéru do nádoby.
-		\begin{figure}[!htbp]
+		\begin{figure}[H]
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/poruchy_mixeru.png}
 			\caption{Poruchy mixéru}
@@ -233,9 +240,7 @@
 		\end{center}
 		\end{figure}
 
-		Obrázek \ref{fig:sit-zavzdusneni} reprezentuje problém vznikající zavzdu¹nìním stroje zpracovávajícího èokoládu.
-		Jakmile zamìstnanec zjistí, ¾e stroj je zavzdu¹nìn, vyèká ne¾ dokonèí stroj svoji èinnost, a následnì ho odvzdu¹ní.
-		\begin{figure}[!htbp]
+		\begin{figure}[H]
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/zavzdusneni.png}
 			\caption{Zavzdu¹nìní stroje}
@@ -243,11 +248,7 @@
 		\end{center}
 		\end{figure}
 
-		Obrázek \ref{fig:sit-tvrdnuti} reprezentuje tvrdnutí èokolády v nádobì.
-		Èokoláda po 15 minutách v nádobì vychladne a není mo¾né ji èerpat.
-		Po vychladnutí èokolády se musí zahøát nádoba s èokoládou, aby bylo èerpadlo schopné èokoládu znovu èerpat.
-		To trvá 30 -- 40 minut rovnomìrnì.
-		\begin{figure}[!htbp]
+		\begin{figure}[H]
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/tvrdnuti.png}
 			\caption{Tvrdnutí èokolády}
@@ -255,7 +256,33 @@
 		\end{center}
 		\end{figure}
 
+		\begin{figure}
+			\begin{center}
+				\includegraphics[scale=0.33]{../navrh/detaily/hlavni_cast.png}
+				\caption{Hlavní èást}
+				\label{fig:sit-hlavni}
+			\end{center}
+		\end{figure}
 
+		\begin{figure}
+		\begin{center}
+			\includegraphics[scale=0.25]{../navrh/navrh-petriho_sit-cerna.png}
+			\caption{Kompletní sí»}
+			\label{fig:sit-komplet}
+		\end{center}
+		\end{figure}
+
+	\newpage
+	\section{Architektura simulaèního modelu}
+		V implementaci je Zamìstnanec reprezentován tøídou Zamestnanec, èokoláda, která
+		ji¾ opustila èepradlo je reprezentována tøídou Cokolada. Stroje na lince (mixér, èerpadlo a stroj na zpracování èokolády)
+		jsou reprezentovány pomocí tøídy Facility\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 180}.
+		Porucha zanesení filtru je implementována pomocí tøídy Ucpani_filtru, porucha na
+		èepeli mixéru pomocí tøídy Porucha_cepele, zavzdu¹nìní stroje pomocí tøídy
+		Zavzdusneni a tvrdnutí èokolády pomocí tøídy Tvrdnuti_cokolady.
+
+		Tøídy Zamestnanec, Cokolada, Porucha_cepele a Ucpani_filtru jsou potomky tøídy Process\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 171}
+		a pøedkem tøíd Tvrdnuti_cokolady a Zavzdusneni je tøída Event\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 169}
 	\newpage
 	\bibliography{zdroje}
 
