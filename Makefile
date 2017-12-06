@@ -1,8 +1,8 @@
 
 CC    = g++
-FLAGS = -std=c++11 -Wall -Wextra -Werror -g -pedantic -O2 -DNDEBUG
+FLAGS = -std=c++11 -Wall -Wextra -Werror -g -pedantic -O2
 
-.PHONY: clean build statistics
+.PHONY: clean build experiments run
 
 build: chocolate
 
@@ -10,12 +10,41 @@ chocolate: main.o
 	$(CC) $(FLAGS) -o $@ $^ -l simlib
 
 main.o: main.cpp main.hpp
-	$(CC) $(FLAGS) -c $^
+	$(CC) $(FLAGS) -c $<
+
+example: example.o
+	$(CC) $(FLAGS) -o $@ $^ -l simlib
+
+example.o: main.cpp main.hpp
+	$(CC) $(FLAGS) -DDEBUG -DEXAMPLE -O2 -c $< -o $@
+
+porucha_cepele: porucha_cepele.o
+	$(CC) $(FLAGS) -o $@ $^ -l simlib
+
+porucha_cepele.o: main.cpp main.hpp
+	$(CC) $(FLAGS) -DCEPEL -O2 -c $< -o $@
+
+porucha_filtru: porucha_filtru.o
+	$(CC) $(FLAGS) -o $@ $^ -l simlib
+
+porucha_filtru.o: main.cpp main.hpp
+	$(CC) $(FLAGS) -DFILTR -O2 -c $< -o $@
+
+porucha_stroje: porucha_stroje.o
+	$(CC) $(FLAGS) -o $@ $^ -l simlib
+
+porucha_stroje.o: main.cpp main.hpp
+	$(CC) $(FLAGS) -DSTROJ -O2 -c $< -o $@
 
 clean:
-	rm -f main.o chocolate
+	rm -f main.o chocolate provoz.txt example example.o porucha_stroje porucha_cepele porucha_filtru porucha_stroje.o porucha_cepele.o porucha_filtru.o
 
-statistics:
+run: example
+	echo "\033[0;31mSpoustim simulaci tydeniho provozu. Statistika bude na stdout, popis toho, co se deje v case bude v souboru provoz.txt\033[0m"
+	./example 50 2>provoz.txt
+
+experiments: porucha_cepele porucha_filtru porucha_stroje chocolate
+	mkdir -p statistika
 	./chocolate 50 >statistika/statistika_50.csv
 	./chocolate 55 >statistika/statistika_55.csv
 	./chocolate 60 >statistika/statistika_60.csv
@@ -32,3 +61,6 @@ statistics:
 	./chocolate 77 >statistika/statistika_77.csv
 	./chocolate 78 >statistika/statistika_78.csv
 	./chocolate 79 >statistika/statistika_79.csv
+	./porucha_cepele 50 >statistika/vliv_cepele.csv
+	./porucha_filtru 50 >statistika/vliv_filtru.csv
+	./porucha_stroje 50 >statistika/vliv_stroje.csv

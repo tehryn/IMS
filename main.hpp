@@ -43,6 +43,8 @@ extern unsigned stroj_obsazeno;
 extern unsigned jednotka_casu;
 /// Den v tydnu, 0-4 jsou pracovni dny, 5 a 6 jsou vikendy
 extern unsigned den;
+/// Interval vypisovani statistiky v sekundach
+extern unsigned delka_jednotky_casu;
 
 /// Promenna urcujici zavzdusneni stroje
 extern bool zavzdusneno;
@@ -109,7 +111,7 @@ class Statistika: public Process {
 			poruch_filtr      = 0;
 			poruch_zatvrdnuti = 0;
 			vyrobeno_cokolady = 0;
-			Wait( DEN * 7 );
+			Wait( delka_jednotky_casu );
 		}
 	}
 };
