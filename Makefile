@@ -66,4 +66,8 @@ experiments: porucha_cepele porucha_filtru porucha_stroje chocolate
 	./porucha_stroje 50 >statistika/vliv_stroje.csv
 
 archive:
-	zip 02_xmatej52_xmisov00.zip main.cpp main.hpp Makefile ims.pdf README 
+	$(MAKE) clean -C pdflatex
+	$(MAKE) -C pdflatex
+	cp pdflatex/ims.pdf ims.pdf
+	zip 02_xmatej52_xmisov00.zip main.cpp main.hpp Makefile ims.pdf README
+	rm ims.pdf
