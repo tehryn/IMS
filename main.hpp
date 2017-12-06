@@ -66,18 +66,22 @@ class Pracovni_doba: public Process {
 			if ( den < 5) {
 				// zacatek pracovni doby
 				Wait( 15 * HODINA );
+				info("Pracovni doba: Den skoncil, dokoncete rozdelanou praci a jdete domu.");
 				pracovni_doba = false;
 				// konec pracovni doby
 				Wait( 9 * HODINA );
+				info( "Pracovni doba: Zacatek noveho dne, prosim hlaste se na svych stanovistich." );
 				pracovni_doba = true;
 				// Vzhuru do dalsiho dne
 				den++;
 			}
 			else {
 				// Je vikend!
+				info("Pracovni doba: Nastal vikend, pokud nenastala zadna porucha, uzijte si volno.");
 				pracovni_doba = false;
 				Wait( 2 * DEN );
 				// Je pondeli...
+				info("Pracovni doba: Nastalo pondeli, volno skoncilo.");
 				den = 0;
 				pracovni_doba = true;
 			}
@@ -91,7 +95,7 @@ class Pracovni_doba: public Process {
  */
 class Statistika: public Process {
 	void Behavior() {
-		std::cout << "Cas,Poruch cepel,Poruch filtru,Poruch stroje,Zatvrdnuti cokolady,Vyrobeno cokolady" << std::endl;
+		std::cout << "Cas,Poruch cepele,Poruch filtru,Poruch stroje,Zatvrdnuti cokolady,Vyrobeno cokolady" << std::endl;
 		while (1) {
 			std::cout << jednotka_casu << ",";
 			std::cout << poruch_cepele << ",";
@@ -269,7 +273,7 @@ private:
 		Seize(mixer, 1); // Zamestnanec chce mixer
 		debug( "Zamestnanec: Zacinam plnit mixer, momentalne v nem je cokolady", mixer_obsazeno );
 		// Zamestnanec ma mixer a zacina ho plnit
-		for( unsigned i = mixer_obsazeno; i < VSTUPNI_MNOZSTVI_COKOLADY && i < KAPACITA_MIXER; i++ ) {
+		while ( mixer_obsazeno < VSTUPNI_MNOZSTVI_COKOLADY && mixer_obsazeno < KAPACITA_MIXER ) {
 			if ( zmetci > 0 ) {
 				zmetci--;
 			}
