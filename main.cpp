@@ -1,5 +1,9 @@
 #include "main.hpp"
-
+/*
+	poruch cepele:      prumerne by melo byt 10
+	poruch filtru:      prumerne by melo byt 84.8
+	poruch zavzdusneni: prumerne by melo byt 260.5
+ */
 Facility cerpadlo;
 Facility mixer;
 Facility stroj;
@@ -33,15 +37,14 @@ int main(int argc, char const *argv[]) {
 	info( "Zaciname!" );
 	debug( "Vstupni mnozstvi cokolady", VSTUPNI_MNOZSTVI_COKOLADY );
 	Init( 0, 3650 * DEN );
-	Zavzdusneni * zavzdusneni = new Zavzdusneni;
-	zavzdusneni->Activate( Exponential( 14 * DEN ) );
-	(new Ucpani_filtru)->Activate( Exponential( 43 * DEN ) );
-	(new Porucha_cepele(zavzdusneni))->Activate( Exponential( 365 * DEN ) );
 	(new Zamestnanec)->Activate();
+	(new Zavzdusneni)->Activate( Exponential( 14 * DEN ) );
+	(new Ucpani_filtru)->Activate( Exponential( 43 * DEN ) );
+	(new Porucha_cepele)->Activate( Exponential( 365 * DEN ) );
 	(new Statistika)->Activate( DEN * 7 );
 	(new Pracovni_doba)->Activate();
 	Run();
-	mixer.Output();
+	//mixer.Output();
 	info( "Koncime!" );
 	return 0;
 }

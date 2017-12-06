@@ -17,44 +17,67 @@
 #define KAPACITA_STROJ  40
 #define KAPACITA_NADOBA 100
 
+/// Mnozstvi cokolady davajici se do mixeru
 extern unsigned VSTUPNI_MNOZSTVI_COKOLADY;
 
+/// Pocet zmetku cekajici na zpracovani
 extern long unsigned int zmetci;
+/// Pocet vyrobene cokolady za jednotku casu. Jednotka casu se nastavuje ve tride Statistika
 extern long long unsigned int vyrobeno_cokolady;
 
+/// Pocet poruch filtru za jednotku casu
 extern unsigned poruch_filtr;
+/// Pocet poruch stroje za jednotku casu
 extern unsigned poruch_stroje;
+/// Pocet poruch cepele za jednotku casu
 extern unsigned poruch_cepele;
+/// Pocet zatvrdnuti cokolady za jednotku casu
 extern unsigned poruch_zatvrdnuti;
+/// Aktualni pocet cokolady v mixeru
 extern unsigned mixer_obsazeno;
+/// Aktualni pocet cokolady v nadobe za mixerem
 extern unsigned nadoba_obsazeno;
+/// Aktualni pocet cokolady v nadobe pred strojem
 extern unsigned stroj_obsazeno;
+/// V jakem case se nachazime. Cas je v jednotkach casu, ktera se nastavuje ve tride Statistika
 extern unsigned jednotka_casu;
+/// Den v tydnu, 0-4 jsou pracovni dny, 5 a 6 jsou vikendy
 extern unsigned den;
 
+/// Promenna urcujici zavzdusneni stroje
 extern bool zavzdusneno;
-extern bool cokolada_zatvrdla;
-extern bool rozbita_cepel;
-extern bool zaneseny_filtr;
+/// Promenna urcujici pracovni dobu
 extern bool pracovni_doba;
 
+/// Promenna reprezentujici cerpadlo
 extern Facility cerpadlo;
+/// Promenna reprezentujici mixer
 extern Facility mixer;
+/// Promenna reprezentujici stroj
 extern Facility stroj;
 
+/**
+ * Proces pracovni doby. Meni hodnody globalni promene pracovni_doba.
+ */
 class Pracovni_doba: public Process {
 	void Behavior() {
+		// Po spusteni bezi neustale. Urcuje pracovni dobu Techniku a Zamestnancu.
 		while ( 1 ) {
 			if ( den < 5) {
+				// zacatek pracovni doby
 				Wait( 15 * HODINA );
 				pracovni_doba = false;
+				// konec pracovni doby
 				Wait( 9 * HODINA );
 				pracovni_doba = true;
+				// Vzhuru do dalsiho dne
 				den++;
 			}
 			else {
+				// Je vikend!
 				pracovni_doba = false;
 				Wait( 2 * DEN );
+				// Je pondeli...
 				den = 0;
 				pracovni_doba = true;
 			}
@@ -62,6 +85,10 @@ class Pracovni_doba: public Process {
 	}
 };
 
+/**
+ * Proces, ktery generuje csv na standartni vstup. Vystup tohoto procesu lze pouzit
+ * primo na generovani grafu.
+ */
 class Statistika: public Process {
 	void Behavior() {
 		std::cout << "Cas,Poruch cepel,Poruch filtru,Poruch stroje,Zatvrdnuti cokolady,Vyrobeno cokolady" << std::endl;
@@ -83,79 +110,101 @@ class Statistika: public Process {
 	}
 };
 
+/**
+ * Udalost zavzdusneni pouze nastavi globalni hodnotu a konci. Porucha zavzdusneni
+ * neni nijak fatalni a je opravena samotnym Zamestnancem, pote co stroj zpracuje
+ * veskerou cokoladu na lince.
+ */
 class Zavzdusneni: public Event {
 	void Behavior() {
 		info( "Porucha: Zavzdusnil se stroj" );
 		zavzdusneno = true;
 		poruch_stroje++;
-		Activate( Time + Exponential( 14 * DEN ) );
 	}
 };
 
-class Oprava_cepele: public Process {
+/**
+ * Proces poruch a oprav cepele.
+ */
+class Porucha_cepele: public Process {
 	void Behavior() {
-		info( "Technik: Chci mixer, abych opravil cepel" );
-		Seize( mixer, 3 );
-		info( "Technik: Opravuji cepel" );
-		zmetci += mixer_obsazeno;
-		mixer_obsazeno = 0;
-		Wait( Exponential( 5 * DEN ) );
-		rozbita_cepel = false;
-		Release( mixer );
-		info( "Technik: cepel opravena" );
+		while(1) {
+			info( "Porucha: Rozbila se cepel" );
+			// Cekam do pracovni doby, porucha nemuze byt nahlasena technikovi
+			// mimo pracovni dobu
+			WaitUntil( pracovni_doba );
+			poruch_cepele++;
+			// Technik byl puvodne process a porucha event, ale neni treba to delit,
+			// statistiku to nijak neovlivni a proces neni nic jineho nez posloupnost
+			// udalosti.
+			info( "Technik: Chci mixer, abych opravil cepel" );
+			// zaberu mixer, pokud ho ma Zamestnanec, tak mu ho seberu
+			Seize( mixer, 3 );
+			info( "Technik: Opravuji cepel" );
+			// vsechnu cokoladu v mixeru musim hodit do zmetku
+			zmetci += mixer_obsazeno;
+			mixer_obsazeno = 0;
+			// mixer se opravuje i o vikendu, bez nej cela linka stoji, takze
+			// (nastesti) neni treba resit vikendy. V noci se samozrejmne neopravuje
+			// ale to je zahrnuto uz v dobe opravi.
+			Wait( Uniform( DEN * 4, DEN * 7 ) );
+			Release( mixer );
+			info( "Technik: cepel opravena" );
+			Wait( Exponential( 365 * DEN ) );
+		}
 	}
 };
 
-class Ucpani_filtru: public Event {
+/**
+ * Proces ucpani a oprav filtru
+ */
+class Ucpani_filtru: public Process {
 	void Behavior() {
-		info( "Porucha: Zaneseny filtr" );
-		zaneseny_filtr = true;
-		poruch_filtr++;
-		Activate( Time + Exponential( 43 * DEN ) );
+		while (1) {
+			info( "Porucha: Zaneseny filtr" );
+			// Porucha nemuze byt nahlasena technikovi mimo pracovni dobu
+			WaitUntil( pracovni_doba );
+			poruch_filtr++;
+			// Technik byl puvodne process a porucha event, ale neni treba to delit,
+			// statistiku to nijak neovlivni a proces neni nic jineho nez posloupnost
+			// udalosti.
+			info( "Technik: Chci mixer, abych opravil filtr." );
+			// Pokud se mixuje, oprava filtru pocka
+			Seize( mixer, 1 );
+			info( "Technik: Opravuji filtr" );
+			// Toto asi nastat nemuze, ale jen pro jistotu vyhodim cokoladu
+			// z mixeru do zmetku.
+			zmetci += mixer_obsazeno;
+			mixer_obsazeno = 0;
+			Wait( Uniform( HODINA * 1, HODINA * 4 ) );
+			Release( mixer );
+			info( "Technik: Filtr opraven." );
+			Wait( Exponential( 43 * DEN ) );
+		}
 	}
 };
 
-class Porucha_cepele: public Event {
-	Event * ptr;
-public:
-	Porucha_cepele( Event * e ) : ptr(e) {}
-	void Behavior() {
-		info( "Porucha: Rozbila se cepel" );
-		//delete ptr;
-		rozbita_cepel = true;
-		poruch_cepele++;
-		( new Oprava_cepele )->Activate();
-		Activate( Time + Exponential( 365 * DEN ) );
-		//ptr = new Ucpani_filtru();
-		//ptr->Activate( Time + Exponential( 43 * DEN ) );
-	}
-};
-
-class Oprava_filtru: public Process {
-	void Behavior() {
-		info( "Technik: Chci mixer, abych opravil filtr." );
-		Seize( mixer, 1 ); // Pokud se mixuje, oprava filtru pocka
-		info( "Technik: Opravuji filtr" );
-		zmetci += mixer_obsazeno;
-		mixer_obsazeno = 0;
-		Wait( Uniform( HODINA * 1, HODINA * 4 ) );
-		zaneseny_filtr = false;
-		Release( mixer );
-		info( "Technik: Filtr opraven." );
-	}
-};
-
+/**
+ * Proces cokolady. Cokolada si zabira stroj a nasledne generuje bud zmetky nebo
+ * navysuje pocet vyrobene cokolady.
+ */
 class Cokolada: public Process {
 public:
 	void Behavior() {
+		// Cokolada ma prednost pred poruchou, porucha neni totiz fatalni
+		// a je lepsi pokracovat ve vyrobe, nez aby zacala na cele lince tvrdnout
+		// cokolada
 		Seize( stroj, 1 );
 		Wait( SEKUNDA * 18 );
 		stroj_obsazeno--;
 		Release( stroj );
+		// Ted se musim rozhodnout, zda jsem vyrobil zmetek. Produkce zmetku
+		// je zvyzena se zavzdusnenim stroje, ale o kolik, to nikdo nevi. Ale podle
+		// vseho to je jiz zahrnute v 10% procentech.
 		double what_now =  Random();
 		if ( what_now <= 0.1 ) {
-			info( "Cokolada: Jsem zmetek." );
 			zmetci++;
+			debug( "Cokolada: Jsem zmetek. Aktualni pocet zmetku", zmetci );
 		}
 		else {
 			vyrobeno_cokolady++;
@@ -164,30 +213,53 @@ public:
 	}
 };
 
+/**
+ * Udalost tvrdnuti cokolady. Po urcite dobe pozastavi Zamestnance, ten musi
+ * rozehrat zavrdlou cokoladu.
+ */
 class Tvrdnuti_cokolady: public Event {
 private:
+	/// Ukazatel na zamestnance
 	Process *ptr;
-public:
-	Tvrdnuti_cokolady(Process *p): ptr(p) {
-		Activate( Time + Uniform( MINUTA * 15, MINUTA * 20 ) );
-	}
+
 	void Behavior() {
 		info( "Porucha: Zatvrdla cokolada, zacinam proces rozehrivani." );
 		poruch_zatvrdnuti++;
-		ptr->Wait( Uniform( MINUTA * 30, MINUTA * 40 ) );
+		ptr->Passivate();
+		ptr->Activate( Time + Uniform( MINUTA * 30, MINUTA * 40 ) );
+	}
+public:
+	/**
+	 * Konstruktor objektu tridy.
+	 * @param p Ukazatel na zamestnance
+	 */
+	Tvrdnuti_cokolady(Process *p): ptr(p) {
+		Activate( Time + Uniform( MINUTA * 15, MINUTA * 20 ) );
 	}
 };
 
+/**
+ * Proces reprezentujici zamestnance
+ */
 class Zamestnanec: public Process {
 private:
+	/**
+	 * Odvzdusneni stroje
+	 */
 	void odvzdusni_stroj() {
-		Seize( stroj, 0 ); // Odvzdusnovat se zacne, az stroj prestane pracovat
+		// Odvzdusnovat se zacne, az stroj prestane pracovat
+		Seize( stroj, 0 );
 		info( "Zamestnanec: Odvzdusnuji stroj." );
 		Wait( Exponential( MINUTA * 15 ) );
 		zavzdusneno = false;
 		Release( stroj );
+		// Aktivace nove poruchy
+		( new Zavzdusneni )->Activate( Time + Exponential( 14 * DEN ) );
 	}
 
+	/**
+	 * Obsluha Mixeru - Vlozeni cokolady do mixeru a nasledne samotne mixovani.
+	 */
 	void obsluhuj_mixer() {
 		// Pokud je u cerpadla nejaka cokolada, nebudu mixovat!
 		if ( nadoba_obsazeno > 0 ) {
@@ -214,34 +286,46 @@ private:
 		info( "Zamestnanec: Odchazim od mixeru." );
 	}
 
+	/**
+	 * Precerpa 1 kilo cokolady
+	 */
 	void pln_cerpadlo() {
 		// Chci cerpadlo
 		Seize( cerpadlo, 1 );
 		// Zpracuji kilo cokolady
 		Wait( 12 * SEKUNDA );
 		nadoba_obsazeno--;
+		// Dale se cokolada o sebe musi postarat sama
 		(  new Cokolada )->Activate();
 		Release( cerpadlo );
 	}
 
 	void Behavior() {
 		while ( 1 ) {
+			// Pokud neni pracovni doba, nezacinam novy cyklus obsluhy linky
 			WaitUntil( pracovni_doba );
-			info( "Zamestnanec: Prisel jsem do prace" );
+			info( "Zamestnanec: Kontroluji zda nenastala zadna porucha." );
 			if ( zavzdusneno ) {
-				info( "Zamestnanec: Zavzdusnil se mi stroj" );
+				info( "Zamestnanec: Zavzdusnil se mi stroj." );
 				odvzdusni_stroj();
-				info( "Zamestnanec: Zavzdusneny stroj je znovu funkcni" );
+				info( "Zamestnanec: Zavzdusneny stroj je znovu funkcni." );
 				continue;
 			}
+			// Obsluha mixeru
 			obsluhuj_mixer();
+			// Po obsluze mixeru nam cokolada zacina tvrdnout
 			Tvrdnuti_cokolady * tvrdnuti = new Tvrdnuti_cokolady( this );
+			// Dokud se vse neprecerpa, musim michat s cokoladou a hrnout ji do
+			// cerpadla.
 			while ( nadoba_obsazeno > 0 ) {
+				// Pokud neni misto, kam bych precerpal cokoladu, nezbyva mi nic
+				// jineho nez vypnout cerpadlo a doufat, ze mi to mezitim neztvrdne.
 				WaitUntil( stroj_obsazeno < KAPACITA_STROJ );
 				stroj_obsazeno++;
 				pln_cerpadlo();
 				debug( "Zamestnanec: Precerpal jsem kilo cokolady, zbyva", nadoba_obsazeno );
 			}
+			// Po precerpani uz nehrozi zatvrdnuti cokolady, ve stroji uz je zase teplo.
 			delete tvrdnuti;
 		}
 	}

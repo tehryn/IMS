@@ -27,6 +27,7 @@ statistics:
 	./chocolate 90 >statistika/statistika_90.csv
 	./chocolate 95 >statistika/statistika_95.csv
 	./chocolate 100 >statistika/statistika_100.csv
+	./chocolate 74 >statistika/statistika_74.csv
 	./chocolate 76 >statistika/statistika_76.csv
 	./chocolate 77 >statistika/statistika_77.csv
 	./chocolate 78 >statistika/statistika_78.csv
