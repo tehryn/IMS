@@ -145,7 +145,7 @@
 				    Doba zpracování 1 kila          & 18 sekund                            & 18 sekund                   \\ \hline
 				    Porucha èepele na mixéru        & 1 krát do roka                       & (exp) 365 dnù               \\
 				    Zanesení filtru na mixéru       & 1 krát max 2 krát za 2 mìsíce        & (exp) 43 dnù                \\
-				    Zatvrdnutí èokolády             & 1 krát do mìsíce                     & (exp) 30 dní                \\
+				    Zatvrdnutí èokolády             & 15 minut 	                           & 15 minut                    \\
 				    Zavzdu¹nìní stroje              & 1 krát za 14 dní                     & (exp) 14 dní                \\ \hline
 				    Doba opravy èepele mixéru       & Do týdne to je opravené              & 4 -- 7 dní rovnomìrnì       \\
 				    Výmìna/vyèi¹tìní filtru         & 1 -- 4 hodiny, zále¾í na technikovi  & 1 -- 4 hodiny rovnomìnì     \\
@@ -168,7 +168,7 @@
 
 		\subsection{Pùvod pou¾itých metod a technologií}
 			Autorem knihovny SIMLIB je Dr. Ing. Petr Peringer a spoluautory Ing. David Le¹ka a Ing. David Martinek. Pou¾ité konstrukce
-			jsou pøevzaty z TODO\_POUZITE\_KONSTRUKCE
+			jsou pøevzaty z TODO\_POUZITE\_KONSTRUKCE.
 
 	\section{Koncepce modelu}
 		Cílem projektu je simulovat proces zpracování èokolády na lince a ovìøit
@@ -179,53 +179,81 @@
 		èokoládou typu Callebaut, pro kterou odpovídají hodnoty uvedené v
 		tabulce \ref{table:data}, u ostatních druhù èokolády by se data mírnì li¹ila.
 
-	\begin{figure}
-	\begin{center}
-		\includegraphics[scale=0.25]{../navrh/navrh-petriho_sit-cerna.png}
-		\caption{Kompletní sí»}
-		\label{fig:sit-komplet}
-	\end{center}
-	\end{figure}
+		Nejprve jsme si vytvoøili abstraktní model, reprezentovaný stochastickou Petriho sítí\footnote{
+	    Pøedná¹ka IMS\cite{web:prednasky} strany 123 -- 135},
+		na základì informací zji¹tìných v kapitole \ref{zapracovani_cokolady}.
+		Tuto sí» mù¾ete vidìt na obrázku \ref{fig:sit-komplet}.
+		\begin{figure}[h]
+		\begin{center}
+			\includegraphics[scale=0.25]{../navrh/navrh-petriho_sit-cerna.png}
+			\caption{Kompletní sí»}
+			\label{fig:sit-komplet}
+		\end{center}
+		\end{figure}
 
-	\begin{figure}
-	\begin{center}
-		\includegraphics[scale=0.3]{../navrh/detaily/hlavni_cast.png}
-		\caption{Hlavní èást}
-		\label{fig:sit-hlavni}
-	\end{center}
-	\end{figure}
+		Kvùli její komlikovanosti jsme se ji v¹ak následnì rozhodli rozdìlit do nìkolika obrázkù,
+		které by lépe vysvìtlovali jednotlivé situace, jako napøíklad poruchy na jednotlivých strojích.
 
-	\begin{figure}
-	\begin{center}
-		\includegraphics[scale=0.3]{../navrh/detaily/pracovni_doba.png}
-		\caption{Pracovní doba}
-		\label{fig:sit-pracovni_doba}
-	\end{center}
-	\end{figure}
+		Obrázek \ref{fig:sit-hlavni} reprezentuje výrobu èokolády bez jakýchkoliv poruch.
+		Zamìstnanec naplní mixér, spustí mixování trvající 14 -- 17 minut.
+		Rozmixovanou èokoládu pøemístí do nádoby a s tou se následnì pøemístí k èerpadlu.
+		Èerpadlo a stroj spustí, zaène èokoládu míchat a sunout k vývodu do èerpadla.
+		Stroj mezitím vytváøí èokoládové výrobky, které jsou následnì kontrolovány, zda jsou kvalitní.
+		Pokud se narazí na zmetky, jsou pøemístìny do nádoby, která koresponduje s nádobou na zmetky,
+		odkud nabírá èokoládu zamìstnanec.
+		\begin{figure}[h]
+		\begin{center}
+			\includegraphics[scale=0.3]{../navrh/detaily/hlavni_cast.png}
+			\caption{Hlavní èást}
+			\label{fig:sit-hlavni}
+		\end{center}
+		\end{figure}
 
-	\begin{figure}
-	\begin{center}
-		\includegraphics[scale=0.3]{../navrh/detaily/poruchy_mixeru.png}
-		\caption{Poruchy mixéru}
-		\label{fig:sit-mixer}
-	\end{center}
-	\end{figure}
+		Obrázek \ref{fig:sit-pracovni_doba} reprezentuje pracovní dobu zamìstnance na lince.
+		Poté, co zamìstnanec pøíjde do práce, se spustí 15 hodinový odpoèet.
+		Po jeho uplynutí zamìstnanec dokonèí pracovní cyklus a znovu ji¾ nenaplòuje mixér.
+		Po 5 pracovních dnech následují 2 dny volna.
+		\begin{figure}[h]
+		\begin{center}
+			\includegraphics[scale=0.3]{../navrh/detaily/pracovni_doba.png}
+			\caption{Pracovní doba}
+			\label{fig:sit-pracovni_doba}
+		\end{center}
+		\end{figure}
 
-	\begin{figure}
-	\begin{center}
-		\includegraphics[scale=0.3]{../navrh/detaily/zavzdusneni.png}
-		\caption{Zavzdu¹nìní stroje}
-		\label{fig:sit-zavzdusneni}
-	\end{center}
-	\end{figure}
+		Obrázek \ref{fig:sit-mixer} reprezentuje obì zminované poruchy mixéru z kapitoly \ref{zapracovani_cokolady}.
+		Porucha je dána odpoètem, po jeho¾ uplynutí dojde k naru¹ení bì¾ného chodu.
+		Porucha èepele zablokuje mixér ihned a stroj je nutné opravit. Ve¹kerá èokoláda z mixéru je pøesunuta do nádoby na zmetky.
+		Porucha filtru nezastavuje bìh mixéru, ale je opravována, jakmile zamìstnanec pøemístí rozmixovanou èokoládu z mixéru do nádoby.
+		\begin{figure}[h]
+		\begin{center}
+			\includegraphics[scale=0.3]{../navrh/detaily/poruchy_mixeru.png}
+			\caption{Poruchy mixéru}
+			\label{fig:sit-mixer}
+		\end{center}
+		\end{figure}
 
-	\begin{figure}
-	\begin{center}
-		\includegraphics[scale=0.3]{../navrh/detaily/tvrdnuti.png}
-		\caption{Tvrdnutí èokolády}
-		\label{fig:sit-tvrdnuti}
-	\end{center}
-	\end{figure}
+		Obrázek \ref{fig:sit-zavzdusneni} reprezentuje problém vznikající zavzdu¹nìním stroje zpracovávajícího èokoládu.
+		Jakmile zamìstnanec zjistí, ¾e stroj je zavzdu¹nìn, vyèká ne¾ dokonèí stroj svoji èinnost, a následnì ho odvzdu¹ní.
+		\begin{figure}[h]
+		\begin{center}
+			\includegraphics[scale=0.3]{../navrh/detaily/zavzdusneni.png}
+			\caption{Zavzdu¹nìní stroje}
+			\label{fig:sit-zavzdusneni}
+		\end{center}
+		\end{figure}
+
+		Obrázek \ref{fig:sit-tvrdnutí} reprezentuje tvrdnutí èokolády v nádobì.
+		Èokoláda po 15 minutách v nádobì vychladne a není mo¾né ji èerpat.
+		Po vychladnutí èokolády se musí zahøát nádoba s èokoládou, aby bylo èerpadlo schopné èokoládu znovu èerpat.
+		To trvá 30 -- 40 minut rovnomìrnì.
+		\begin{figure}[h]
+		\begin{center}
+			\includegraphics[scale=0.3]{../navrh/detaily/tvrdnuti.png}
+			\caption{Tvrdnutí èokolády}
+			\label{fig:sit-tvrdnuti}
+		\end{center}
+		\end{figure}
 
 
 	\newpage
