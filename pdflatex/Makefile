@@ -6,3 +6,5 @@ ims.pdf: ims.tex
 	pdflatex ims.tex
 	pdflatex ims.tex
 
+clean:
+	rm ims.bbl ims.log ims.aux ims.blg ims.pdf ims.toc
