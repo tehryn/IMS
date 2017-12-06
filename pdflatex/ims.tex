@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper,titlepage]{article}
+\documentclass[11pt,a4paper,titlepage]{article}
 \usepackage[left=1.5cm,text={18cm, 25cm},top=2.5cm]{geometry}
 \usepackage{setspace}
 \usepackage{graphicx}
@@ -137,7 +137,7 @@
 			proto¾e pøi plnìní mixéru je úplnì jedno, zda vlo¾ený kus èokolády je
 			zmetek nebo je¹tì nezpracovaný kus.
 
-		\subsection{Upøesnìní získaných dat}
+		\subsection{Upøesnìní získaných dat} \label{upresneni_dat}
 			Pro správné fungování simulaèního modelu\footnote{
 		    Pøedná¹ka IMS (verze 17. øíjna 2017) strany 44 a 49} bylo nutné upøesnit zadaná data. Z
 			dal¹ích konzultací s Pavlem Dubou jsme dospìli k výsledkùm uvedených
@@ -224,7 +224,7 @@
 		Pokud se narazí na zmetky, jsou pøemístìny do nádoby, která koresponduje s nádobou na zmetky,
 		odkud nabírá èokoládu zamìstnanec.
 
-		\begin{figure}[H]
+		\begin{figure}
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/pracovni_doba.png}
 			\caption{Pracovní doba}
@@ -232,7 +232,7 @@
 		\end{center}
 		\end{figure}
 
-		\begin{figure}[H]
+		\begin{figure}
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/poruchy_mixeru.png}
 			\caption{Poruchy mixéru}
@@ -240,7 +240,7 @@
 		\end{center}
 		\end{figure}
 
-		\begin{figure}[H]
+		\begin{figure}
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/zavzdusneni.png}
 			\caption{Zavzdu¹nìní stroje}
@@ -248,7 +248,7 @@
 		\end{center}
 		\end{figure}
 
-		\begin{figure}[H]
+		\begin{figure}
 		\begin{center}
 			\includegraphics[scale=0.3]{../navrh/detaily/tvrdnuti.png}
 			\caption{Tvrdnutí èokolády}
@@ -277,12 +277,254 @@
 		V implementaci je Zamìstnanec reprezentován tøídou Zamestnanec, èokoláda, která
 		ji¾ opustila èepradlo je reprezentována tøídou Cokolada. Stroje na lince (mixér, èerpadlo a stroj na zpracování èokolády)
 		jsou reprezentovány pomocí tøídy Facility\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 180}.
-		Porucha zanesení filtru je implementována pomocí tøídy Ucpani_filtru, porucha na
-		èepeli mixéru pomocí tøídy Porucha_cepele, zavzdu¹nìní stroje pomocí tøídy
-		Zavzdusneni a tvrdnutí èokolády pomocí tøídy Tvrdnuti_cokolady.
+		Porucha zanesení filtru je implementována pomocí tøídy Ucpani\_filtru, porucha na
+		èepeli mixéru pomocí tøídy Porucha\_cepele, zavzdu¹nìní stroje pomocí tøídy
+		Zavzdusneni a tvrdnutí èokolády pomocí tøídy Tvrdnuti\_cokolady.
 
-		Tøídy Zamestnanec, Cokolada, Porucha_cepele a Ucpani_filtru jsou potomky tøídy Process\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 171}
-		a pøedkem tøíd Tvrdnuti_cokolady a Zavzdusneni je tøída Event\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 169}
+		Tøídy Zamestnanec, Cokolada, Porucha\_cepele a Ucpani\_filtru jsou potomky tøídy Process\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 171}
+		a pøedkem tøíd Tvrdnuti\_cokolady a Zavzdusneni je tøída Event\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 169}
+
+	\section{Podstata simulaèních experimentù a jejich prùbìh}
+		Pomocí simulaèních experimentù\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 9} chceme zjistit jaké je ideální mno¾ství
+		èokolády vkládané do mixéru a zji¹tní, jak moc velký dopad mají poruchy na produkci
+		èokolády.
+
+		\subsection{Simulace provozu linky}
+			Tento experiment\footnote{Pøedná¹ka IMS\cite{web:prednasky} strany 9} má za cíl prokázat validitu simulaèního modelu. Tento experiment
+			probìhl nìkolikrát a vedl k upøesnìní získaných dat. Na tento experiment jsme se
+			odkazovali v kapitole \ref{zapracovani_cokolady}, a výsledkem tohoto experimentu
+			je tabulka \ref{table:data} s upøesnìnými statistickými údaji a graf \ref{fig:graf_ctvrtleti}
+			znázoròující výrobu èokolády a spoleèný vliv poruch na produktivitu linky.
+
+			\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.65]{../statistika/graf_ctvrtleti_50.png}
+				\caption{ Výroba èokoládových výrobkù za dobu 10 let }
+				\label{fig:graf_ctvrtleti}
+			\end{center}
+			\end{figure}
+
+		\subsection{Zji¹tìní ideálního mno¾ství èokolády vkládané do mixéru}
+			Z grafu \ref{fig:graf_ctvrtleti} lze mimo jiné vyèíst, ¾e pøi aktuálním
+			provozu linky nedochází k tvrdnutí èokolády. Pomocí tohoto experimentu
+			chceme zjistit, v jakém mno¾ství vkládané èokolády do mixéru zaène
+			docházet k tvrdnutí èokolády a v jakém mno¾ství je produkce nejvy¹¹í.
+
+			Výsledkem této práce je graf \ref{fig:graf_tvrdnuti}, ze kterého lze zjistit,
+			¾e linka má nejlep¹í výsledky pøi vkládní 75 kilogramù èokolády do mixéru.
+			Z tabulky \ref{table:experiment_1} lze zase zjistit, ¾e
+			pøi tomto mno¾ství je linka schopna vyrobit a¾ o 22.2 \% více výrobkù.
+
+			\begin{table}[htb]
+				\centering
+				\begin{tabular}{|l|l|l|l|l|l|l|}
+				\hline
+				Mno¾ství èokolády [kg]  & Zatvrdnutí èokolády & Vyrobeno èokolady [t] \\ \hline
+				50                 & 0                   & 3677.936 \\
+				55                 & 0                   & 3802.846 \\
+				60                 & 0                   & 4008.138 \\
+				65                 & 0                   & 4217.805 \\
+				70                 & 0                   & 4342.173 \\
+				74                 & 0                   & 4406.111 \\
+				75                 & 0                   & 4495.423 \\
+				76                 & 2558                & 4408.304 \\
+				77                 & 4773                & 4186.009 \\
+				78                 & 6971                & 4064.702 \\
+				79                 & 8893                & 3967.276 \\
+				80                 & 10823               & 3906.272 \\
+				85                 & 18271               & 3517.709 \\
+				90                 & 23745               & 3185.453 \\
+				95                 & 27931               & 2984.075 \\
+				100                & 30941               & 2785.517 \\ \hline
+				\end{tabular}
+				\caption{ Data získaná ze simulace }
+				\label{table:experiment_1}
+			\end{table}
+
+			\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.65]{../statistika/graf_vztah_vstupu_a_tvrdnuti.png}
+				\caption{ Vztah vkládaného mno¾ství èokolády do mixéru a výsledného mno¾ství výrobkù }
+				\label{fig:graf_tvrdnuti}
+			\end{center}
+			\end{figure}
+
+		\subsection{Vliv jednotlivých poruch na krátkodobou produkci èokolády}
+			Výsledek toho experimentu lze pou¾ít pro zji¹tìní dopadu jednotlivých poruch
+			na produkci a lze jeho výsledky pou¾ít napøíklad k analýze, zda se nevyplatí
+			nìkterý stroj nahradit za jiný.
+
+			\subsection{Vliv zavzdu¹nìní stroje}
+				Stroj na zpracování èokolády má nejvíce poruch ze v¹ech ostatních strojù na lince.
+				Pokud výraznì ovlivòuje produkci èokolády, bylo by vhodné hlednat jiné øe¹ení,
+				jak zpracovat èokoládu.
+
+				Z výsledného grafu \ref{fig:graf_stroj} a tabulky \ref{table:experiment_stroj} lze
+				zjistit, ¾e stroj má minimální dopad na produkci. Produkce byla následující
+				hodinu sice polovièní, ale na výslednou hodnotu produkce celého dne to má malý
+				dopad a vzhledem k tomu, ¾e porucha nastává v prùmìru jednou za 14 dní,
+				dopad na produkènost linky je vskutku minimální.
+				\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.65]{../statistika/graf_vliv_stroje.png}
+					\caption{ Prùbìh výroby a nastání poruchy stroje bìhem jednoho dne výroby }
+					\label{fig:graf_stroj}
+				\end{center}
+				\end{figure}
+
+
+				\begin{table}[H]
+				    \centering
+				    \begin{tabular}{|l|l|l|l|l|l|l|}
+				    	\hline
+					    Èas [h] &  Poruch stroje &  Èokoládových výrobkù [t] \\ \hline
+					    1 &  0 &  0.078 \\
+					    2 &  0 &  0.1 \\
+					    3 &  0 &  0.089 \\
+					    4 &  0 &  0.093 \\
+					    5 &  0 &  0.088 \\
+					    6 &  1 &  0.091 \\
+					    7 &  0 &  0.045 \\
+					    8 &  0 &  0.089 \\
+					    9 &  0 &  0.106 \\
+					    10 &  0 &  0.095 \\
+					    11 &  0 &  0.096 \\
+					    12 &  0 &  0.093 \\
+					    13 &  0 &  0.098 \\
+					    14 &  0 &  0.09 \\
+					    15 &  0 &  0.091 \\
+					    16 &  0 &  0.043 \\
+					    17 &  0 &  0 \\
+					    18 &  0 &  0 \\
+					    19 &  0 &  0 \\
+					    20 &  0 &  0 \\
+					    21 &  0 &  0 \\
+					    22 &  0 &  0 \\
+					    23 &  0 &  0 \\
+					    24 &  0 &  0 \\ \hline
+				    \end{tabular}
+				    \caption{Vliv poruchy stroje na poèet výrobkù}
+				    \label{table:experiment_stroj}
+				\end{table}
+
+			\subsection{Vliv zanesení filtru}
+				Filtr se sice nezaná¹i tak èasto, ale jeho oprava mù¾e trvat pøibli¾nì 4 krát -- 16 krát
+				déle. Výsledky této simulace jsou zobrazeny v grafu \ref{fig:graf_filtr} a
+				tabulce \ref{table:experiment_filtr}
+
+				Pøesto¾e oprava filtru netrvala ani 2 hodiny, i tak dokázala sní¾it produkci èokolády
+				v následujících dvou hodinách o nìco více ne¾ 50 \%. Ale vzhledem k tomu, ¾e
+				porucha nastává pøibli¾nì jednou za 43 dní, je to opìt zanedbatelné.
+
+				\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.65]{../statistika/graf_vliv_filtru.png}
+					\caption{ Prùbìh výroby a nastání poruchy filtru bìhem jednoho dne výroby }
+					\label{fig:graf_filtr}
+				\end{center}
+				\end{figure}
+
+				\begin{table}[H]
+				    \centering
+				    \begin{tabular}{|l|l|l|}
+					    \hline
+					    Èas [h] &  Poruch filtru &  Èokoládových výrobkù [t] \\ \hline
+					    1 &  0 &  0.078 \\
+					    2 &  0 &  0.1 \\
+					    3 &  0 &  0.089 \\
+					    4 &  1 &  0.093 \\
+					    5 &  0 &  0.045 \\
+					    6 &  0 &  0.038 \\
+					    7 &  0 &  0.096 \\
+					    8 &  0 &  0.087 \\
+					    9 &  0 &  0.092 \\
+					    10 &  0 &  0.093 \\
+					    11 &  0 &  0.088 \\
+					    12 &  0 &  0.093 \\
+					    13 &  0 &  0.09 \\
+					    14 &  0 &  0.095 \\
+					    15 &  0 &  0.095 \\
+					    16 &  0 &  0.029 \\
+					    17 &  0 &  0 \\
+					    18 &  0 &  0 \\
+					    19 &  0 &  0 \\
+					    20 &  0 &  0 \\
+					    21 &  0 &  0 \\
+					    22 &  0 &  0 \\
+					    23 &  0 &  0 \\
+					    24 &  0 &  0 \\ \hline
+				\end{tabular}
+				\caption{Vliv poruchy filtru na poèet výrobkù}
+				\label{table:experiment_filtr}
+			\end{table}
+		\subsection{Vliv poruch èepele}
+			Porucha èepele má bezesporu nejvìt¹í vliv na produkci èokolády, otázkou
+			je, zda ten dopad je tak významný, aby to mìlo smysl øe¹it a zda je tento
+			problém vùbec øe¹itelný.
+
+			Graf \ref{fig:graf_cepel} znázoròuje prùbìh výroby a z tabulky \ref{table:experiment_cepel}
+			lze vièíst, ¾e porucha ovlivnila výrobu èokolády celkem ve 6 dnech (z toho 2 byli víkendové dny).
+			V prvním dnu sní¾ila produkci o necelou tøetinu, v následujících 4 dnech byla produkce nulová
+			a 6. den byla produkce minimální. Vliv poruchy èepele na produkci je dokonce vidìl i v
+			dlouhodobé produkci znázornìné na grafu \ref{fig:graf_ctvrtleti}.
+
+			\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.65]{../statistika/graf_vliv_filtru.png}
+				\caption{ Prùbìh výroby a nastání poruchy èepele bìhem jednoho mìsíce výroby }
+				\label{fig:graf_cepel}
+			\end{center}
+			\end{figure}
+
+			\begin{table}[htb]
+			    \centering
+			    \begin{tabular}{|l|l|l|}
+			    \hline
+			    Èas [den] & Poruch èepele &  Èokoládových výrobkù [t] \\ \hline
+			    1  & 0 & 1.434 \\
+			    2  & 0 & 1.442 \\
+			    3  & 0 &  1.46 \\
+			    4  & 0 &  1.44 \\
+			    5  & 0 &  1.427 \\
+			    6  & 0 &  0 \\
+			    7  & 0 &  0 \\
+			    8  & 0 &  1.433 \\
+			    9  & 0 &  1.447 \\
+			    10 & 1 &  1.09 \\
+			    11 & 0 &  0 \\
+			    12 & 0 &  0 \\
+			    13 & 0 &  0 \\
+			    14 & 0 &  0 \\
+			    15 & 0 &  0.174 \\
+			    16 & 0 &  1.379 \\
+			    17 & 0 &  1.464 \\
+			    18 & 0 &  1.449 \\
+			    19 & 0 &  1.412 \\
+			    20 & 0 &  0 \\
+			    21 & 0 &  0 \\
+			    22 & 0 &  1.45 \\
+			    23 & 0 &  1.434 \\
+			    24 & 0 &  1.447 \\
+			    25 & 0 &  1.406 \\
+			    26 & 0 &  1.442 \\
+			    27 & 0 &  0 \\
+			    28 & 0 &  0 \\
+			    29 & 0 &  1.443 \\
+			    30 & 0 &  1.447 \\ \hline
+			    \end{tabular}
+			    \caption{Vliv poruchy èepele na poèet výrobkù}
+			    \label{table:experiment_cepel}
+			\end{table}
+	\section{Závìr}
+		Podle provedených experimentùch lze zvý¹it produktivitu linky a to a¾ o 22 \%.
+		Toho lze docílit zvý¹ením mno¾stvím èokolády vkládané do mixéru o 25 kilogramù.
+		Proto¾e nìkteré ze statistických údajù nebyly natolik pøesné a proto¾e simulaèní model
+		nikdy nemù¾e být naprosto shodný s realitou, tak se mohou výsledky tìchto experimentù
+		provedených v realitì trochu li¹it. I pøes tento fakt jsme do¹li k závìru, ¾e
+		by bylo pro firmu LION PRODUCTS vhodné alespoò zkusit naví¹it toto mno¾ství. Co se
+		poruch týèe, tak jediná porucha, která stojí za pozornost, je porucha èepele. U této
+		poruchy se nám nepodaøilo zjistit data, jak zmìnit poruchovost stroje a otázka,
+		jak øe¹it tento problém, je tedy nezodpovìzena.
 	\newpage
 	\bibliography{zdroje}
 
