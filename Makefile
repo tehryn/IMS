@@ -69,5 +69,9 @@ archive:
 	$(MAKE) clean -C pdflatex
 	$(MAKE) -C pdflatex
 	cp pdflatex/ims.pdf ims.pdf
+	rm -f 02_xmatej52_xmisov00.zip
 	zip 02_xmatej52_xmisov00.zip main.cpp main.hpp Makefile ims.pdf README
 	rm ims.pdf
+	git add 02_xmatej52_xmisov00.zip
+	git commit -m "Aktualizace odevzdani"
+	git push
