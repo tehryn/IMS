@@ -1,9 +1,9 @@
-#include "main.hpp"
 /*
-	poruch cepele:      prumerne by melo byt 10
-	poruch filtru:      prumerne by melo byt 84.8
-	poruch zavzdusneni: prumerne by melo byt 260.5
+ * Modul: main.cpp
+ * Autor: Jiri Matejka
+ * Popis: Soubor s definici funkce main a inicializaci globalnich promennych.
  */
+#include "main.hpp"
 Facility cerpadlo;
 Facility mixer;
 Facility stroj;
