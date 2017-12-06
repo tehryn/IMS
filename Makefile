@@ -2,7 +2,7 @@
 CC    = g++
 FLAGS = -std=c++11 -Wall -Wextra -Werror -g -pedantic -O2
 
-.PHONY: clean build experiments run
+.PHONY: clean build experiments run archive
 
 build: chocolate
 
@@ -64,3 +64,14 @@ experiments: porucha_cepele porucha_filtru porucha_stroje chocolate
 	./porucha_cepele 50 >statistika/vliv_cepele.csv
 	./porucha_filtru 50 >statistika/vliv_filtru.csv
 	./porucha_stroje 50 >statistika/vliv_stroje.csv
+
+archive:
+	$(MAKE) clean -C pdflatex
+	$(MAKE) -C pdflatex
+	cp pdflatex/ims.pdf ims.pdf
+	rm -f 02_xmatej52_xmisov00.zip
+	zip 02_xmatej52_xmisov00.zip main.cpp main.hpp Makefile ims.pdf README
+	rm ims.pdf
+	git add 02_xmatej52_xmisov00.zip
+	git commit -m "Aktualizace odevzdani"
+	git push

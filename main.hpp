@@ -1,3 +1,7 @@
+/** \file main.hpp
+ * Soubor obsahujici tridy s pretizenymi metodami Behavior. Autory tohoto
+ * souboru jsou Jiri Matejka a Miroslava Misova
+ */
 #include <simlib.h>
 #include <iostream>
 #ifdef DEBUG
