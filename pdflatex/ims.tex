@@ -50,44 +50,44 @@
     \section{Úvod}
         Tato práce vznikla jako projekt do pøedmìtu Modelování a simulace na ¹kole
 		Vysoké uèení technické v Brnì. Práce se zabývá simulací modelu \cite[strany 7, 8]{web:prednasky} zpracování
-		surové èokolády v halách spoleènosti LION PRODUCTS, s.r.o. \cite[]{web:lion} Smyslem projektu
+		surové èokolády v halách spoleènosti LION PRODUCTS, s.r.o. \cite{web:lion} Smyslem projektu
 		je pomocí simulaèních experimentù zjistit, zda jsou jednotlivé stroje
 		provádìjící dílèí kroky zpracování èokolády efektivnì zapojeny do výroby,
 		popøípadì najít efektivnìj¹í øe¹ení.
 
 		\subsection{Autoøi}
-			Na úvod bychom chtìli podìkovat Pavlu Dubovi, který mi byl ochoten vìnovat
+			Na úvod bychom chtìli podìkovat Pavlu Dubovi, který nám byl ochoten vìnovat
 			svùj èas a pøedal nám stì¾ejní informace pro vypracování tohoto projektu.
 			Samotnými autory projektu jsou studenti Jiøí Matìjka a Miroslava Mí¹ová.
 
 		\subsection{Zdroje informací}
 			Ve¹keré potøebné informace jsme získali od Pavla Duby, zamìstnance
 			spoleènosti LION PRODUCTS, s.r.o. Na základì rozhovoru s ním jsme
-			získali potøebné vìdomosti k sestavení abstraknho modelu \cite[strany 42, 43, 49 ]{web:prednasky}. Nejslab¹ím
+			získali potøebné vìdomosti k sestavení abstraktního modelu \cite[strany 42, 43, 49]{web:prednasky}. Nejslab¹ím
 			místem modelu jsou pøibli¾né èasové údaje, kdy nastávají poruchy
 			na strojích. Tyto nedostatky ale byly minimalizovány dal¹ími rozhovory
 			se zamìstnancem.
 
 	\section{Zpracování èokolády} \label{zapracovani_cokolady}
-		Jedna linka, zpracovávající èokoládu se skládá ze tøí strojù, dvou nádob a
+		Jedna linka, zpracovávající èokoládu, se skládá ze tøí strojù, dvou nádob a
 		jednoho pásu. Stroje jsou mixér, èerpadlo a stroj tvoøící výrobky.
 		Mixér drtí a taví èokoládu. Jakmile je ve¹kerá èokoláda v tekutém stavu,
 		putuje z mixéru dále do nádoby. Odtud ji zaène èerpadlo postupnì pøeèerpávat
 		do nádoby u stroje tvoøícího výrobky, který ji postupnì zpracovává a
 		umis»uje výrobky na pás, kde probíhá odchytávání vadných kusù a pøesouvání
-		výrobkù dál do zpracování. Zmetky jsou pøi nejbli¾¹í obsluze mixéru znovu
-		roztaveny a zpracovány.
+		výrobkù dál do zpracování. Zmetci jsou pøi nejbli¾¹í obsluze mixéru znovu
+		roztaveni a zpracováni.
 
 		\subsection{Zpracování èokolády na jednotlivých strojích}
 			Mixér, stejnì jako nádoba za ním, má kapacitu 100 kg, ale umis»uje se
-			do nìj 50kg èokolády, aby se zabránilo tvrdnutí èokolády v nádobì a
-			v èerpadle. Mixování èokolády trvá 14-17 minut rovnomìrnì a provádí se
+			do nìj 50 kg èokolády, aby se zabránilo tvrdnutí èokolády v nádobì a
+			v èerpadle. Mixování èokolády trvá 14 -- 17 minut rovnomìrnì a provádí se
 			pøi teplotì 32 °C.
 			Èokoláda se následnì pøelévá do nádoby. Poté je spu¹tìno èerpadlo, které je schopné
 			pøeèerpat 1 kilogram èokolády za 12 sekund. Èerpadlo pøeèerpává èokoládu do
 			nádoby stroje o kapacitì 40 kg èokolády a zpracování jednoho kila èokolády
 			stroji trvá 18 sekund. Zmetkovitost tohoto stroje je pøibli¾nì (pøesný údaj
-			nebyl zji¹tìn) 10 \%. Detekce zmetkù je provádìna na pásu a trvá 8-11 minut
+			nebyl zji¹tìn) 10 \%. Detekce zmetkù je provádìna na pásu a trvá 8 -- 11 minut
 			rovnomìrnì.
 
 		\subsection{Poruchy nastávající bìhem zpracování èokolády}
@@ -98,7 +98,7 @@
 				První poruchou je ucpání filtru. To je zpùsobeno,
 				kdy¾ je èokoláda nedokonale vyjmuta z obalu a kousek igelitového
 				obalu je vlo¾en do mixéru spolu s èokoládou. Filtr se èasem ucpe,
-				a musí se vymìnit v intervalu daném exponencionálním rozlo¾ením se
+				a musí se vymìnit v intervalu daném exponenciálním rozlo¾ením se
 				støedem 43 dnù. Doba opravy trvá 1 -- 4 hodiny rovnomìrnì.
 
 				Druhá a záva¾nìj¹í porucha nastává na èepeli mixéru. Tehdy se mixér musí rozebrat,
@@ -120,12 +120,12 @@
 		\subsection{Obsluha zamìstnanci}
 			Mixér, èerpadlo a stroj na výrobu èokolády obsluhuje dohromady jen jeden
 			zamìstnanec. Ten naplní mixér èokoládou (pøibli¾nì 3 -- 5 sekund na kilo) a spustí ho.
-			Bìhem doby, co je mixér spu¹tìný musí u nìj zamìstnanec stát. Poté, co je èokoláda
+			Bìhem doby, co je mixér spu¹tìný, musí u nìj zamìstnanec stát. Poté, co je èokoláda
 			dostateènì tekutá, vypne mixér a zaène plnit nádobu. Jakmile èokoláda
 			pøeteèe do nádoby, zamìstnanec jde spustit èerpadlo a spolu s ním
 			se spustí i stroj tvoøící èokoládové výrobky. Zamìstnanec se posléze
 			pøemístí zpìt k mixéru a nádobì na èokoládu. V nádobì je otvor, na
-			který je napojeno èerpadlo, umístìn v levé èásti a tam zamìstnanec
+			který je napojeno èerpadlo, umístìn v levé èásti, a tam zamìstnanec
 			hrne ve¹kerou èokoládu. Poté co odèerpá poslední zbytky èokolády,
 			vypíná se stroj na tvorbu výrobkù, a jde se opìt plnit mixér.
 
@@ -160,7 +160,7 @@
 				    Oprava èerpadla                 & 30 -- 40 minut                       & 30 -- 40 minut rovnomìrnì   \\
 				    Odvzdu¹nìní stroje              & kolem 15 minut                       & (exp) 15 minut              \\ \hline
 			    \end{tabular}
-				\caption{Tabulka zobrazující data získaná z prùzkumu a jejich upravené hodnoty na základì experimentu.}
+				\caption{Tabulka zobrazující data získaná z prùzkumu a jejich upravené hodnoty na základì experimentu}
 				\label{table:data}
 			\end{table}
 
@@ -171,7 +171,7 @@
 
 		\subsection{Popis pou¾itých postupù}
 			Pro tvorbu simulaèního projektu byl pou¾it jazyk C\texttt{++} s knihovnou
-			SIMLIB \cite[]{web:Simlib}. C\texttt{++} je objektovì orientovaný jazyk, a spolu s knihovnou
+			SIMLIB \cite{web:Simlib}. C\texttt{++} je objektovì orientovaný jazyk, a spolu s knihovnou
 			SIMLIB je ideálním nástrojem pro simulaci tohoto modelu.
 
 		\subsection{Pùvod pou¾itých metod a technologií}
@@ -193,7 +193,7 @@
 		Tuto sí» mù¾ete vidìt na obrázku \ref{fig:sit-komplet}.
 
 		Kvùli její komlikovanosti jsme se ji v¹ak následnì rozhodli rozdìlit do nìkolika obrázkù,
-		které by lépe vysvìtlovali jednotlivé situace, jako napøíklad poruchy na jednotlivých strojích.
+		které by lépe vysvìtlovaly jednotlivé situace, jako napøíklad poruchy na jednotlivých strojích.
 
 		Obrázek \ref{fig:sit-pracovni_doba} reprezentuje pracovní dobu zamìstnance na lince.
 		Poté, co zamìstnanec pøíjde do práce, se spustí 15 hodinový odpoèet.
@@ -272,7 +272,7 @@
 	\newpage
 	\section{Architektura simulaèního modelu}
 		V implementaci je Zamìstnanec reprezentován tøídou Zamestnanec, èokoláda, která
-		ji¾ opustila èepradlo je reprezentována tøídou Cokolada. Stroje na lince (mixér, èerpadlo a stroj na zpracování èokolády)
+		ji¾ opustila èerpadlo je reprezentována tøídou Cokolada. Stroje na lince (mixér, èerpadlo a stroj na zpracování èokolády)
 		jsou reprezentovány pomocí tøídy Facility \cite[strana 180]{web:prednasky}.
 		Porucha zanesení filtru je implementována pomocí tøídy Ucpani\_filtru, porucha na
 		èepeli mixéru pomocí tøídy Porucha\_cepele, zavzdu¹nìní stroje pomocí tøídy
@@ -282,8 +282,8 @@
 		a pøedkem tøíd Tvrdnuti\_cokolady a Zavzdusneni je tøída Event \cite[strana 169]{web:prednasky}
 
 	\section{Podstata simulaèních experimentù a jejich prùbìh}
-		Pomocí simulaèních experimentù \cite[strana 9]{web:prednasky} chceme zjistit jaké je ideální mno¾ství
-		èokolády vkládané do mixéru a zji¹tní, jak moc velký dopad mají poruchy na produkci
+		Pomocí simulaèních experimentù \cite[strana 9]{web:prednasky} chceme zjistit, jaké je ideální mno¾ství
+		èokolády vkládané do mixéru a zji¹tìní, jak moc velký dopad mají poruchy na produkci
 		èokolády.
 
 		\subsection{Simulace provozu linky}
@@ -353,8 +353,8 @@
 
 			\subsection{Vliv zavzdu¹nìní stroje}
 				Stroj na zpracování èokolády má nejvíce poruch ze v¹ech ostatních strojù na lince.
-				Pokud výraznì ovlivòuje produkci èokolády, bylo by vhodné hlednat jiné øe¹ení,
-				jak zpracovat èokoládu.
+				Pokud výraznì ovlivòuje produkci èokolády, bylo by vhodné hledat jiné øe¹ení,
+				jak zpracovávat èokoládu.
 
 				Z výsledného grafu \ref{fig:graf_stroj} a tabulky \ref{table:experiment_stroj} lze
 				zjistit, ¾e stroj má minimální dopad na produkci. Produkce byla následující
@@ -364,7 +364,7 @@
 				\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.65]{../statistika/graf_vliv_stroje.png}
-					\caption{ Prùbìh výroby a nastání poruchy stroje bìhem jednoho dne výroby }
+					\caption{ Prùbìh výroby a nastávání poruchy stroje bìhem jednoho dne výroby }
 					\label{fig:graf_stroj}
 				\end{center}
 				\end{figure}
@@ -405,7 +405,7 @@
 				\end{table}
 
 			\subsection{Vliv zanesení filtru}
-				Filtr se sice nezaná¹i tak èasto, ale jeho oprava mù¾e trvat pøibli¾nì 4 krát -- 16 krát
+				Filtr se sice nezaná¹í tak èasto, ale jeho oprava mù¾e trvat pøibli¾nì 4 krát -- 16 krát
 				déle. Výsledky této simulace jsou zobrazeny v grafu \ref{fig:graf_filtr} a
 				tabulce \ref{table:experiment_filtr}
 
@@ -456,11 +456,11 @@
 			\end{table}
 		\subsection{Vliv poruch èepele}
 			Porucha èepele má bezesporu nejvìt¹í vliv na produkci èokolády, otázkou
-			je, zda ten dopad je tak významný, aby to mìlo smysl øe¹it a zda je tento
+			je, zda ten dopad je tak významný, aby to mìlo smysl øe¹it, a zda je tento
 			problém vùbec øe¹itelný.
 
 			Graf \ref{fig:graf_cepel} znázoròuje prùbìh výroby a z tabulky \ref{table:experiment_cepel}
-			lze vièíst, ¾e porucha ovlivnila výrobu èokolády celkem ve 6 dnech (z toho 2 byli víkendové dny).
+			lze vyèíst, ¾e porucha ovlivnila výrobu èokolády celkem v 6 dnech (z toho 2 byly víkendové dny).
 			V prvním dnu sní¾ila produkci o necelou tøetinu, v následujících 4 dnech byla produkce nulová
 			a 6. den byla produkce minimální. Vliv poruchy èepele na produkci je dokonce vidìl i v
 			dlouhodobé produkci znázornìné na grafu \ref{fig:graf_ctvrtleti}.
@@ -513,12 +513,12 @@
 			    \label{table:experiment_cepel}
 			\end{table}
 	\section{Závìr}
-		Podle provedených experimentùch lze zvý¹it produktivitu linky a to a¾ o 22 \%.
-		Toho lze docílit zvý¹ením mno¾stvím èokolády vkládané do mixéru o 25 kilogramù.
-		Proto¾e nìkteré ze statistických údajù nebyly natolik pøesné a proto¾e simulaèní model
+		Podle provedených experimentùch lze zvý¹it produktivitu linky, a to a¾ o 22 \%.
+		Toho lze docílit zvý¹ením mno¾ství èokolády vkládané do mixéru o 25 kilogramù (na 75 kg).
+		Proto¾e nìkteré ze statistických údajù nebyly natolik pøesné, a proto¾e simulaèní model
 		nikdy nemù¾e být naprosto shodný s realitou, tak se mohou výsledky tìchto experimentù
 		provedených v realitì trochu li¹it. I pøes tento fakt jsme do¹li k závìru, ¾e
-		by bylo pro firmu LION PRODUCTS vhodné alespoò zkusit naví¹it toto mno¾ství. Co se
+		by bylo pro firmu LION PRODUCTS vhodné alespoò zkusit navý¹it toto mno¾ství. Co se
 		poruch týèe, tak jediná porucha, která stojí za pozornost, je porucha èepele. U této
 		poruchy se nám nepodaøilo zjistit data, jak zmìnit poruchovost stroje a otázka,
 		jak øe¹it tento problém, je tedy nezodpovìzena.
