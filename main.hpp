@@ -24,7 +24,7 @@
 /// Mnozstvi cokolady davajici se do mixeru
 extern unsigned VSTUPNI_MNOZSTVI_COKOLADY;
 
-/// Pocet zmetku cekajici na zpracovani
+/// Pocet zmetku cekajicich na zpracovani
 extern long unsigned int zmetci;
 /// Pocet vyrobene cokolady za jednotku casu. Jednotka casu se nastavuje ve tride Statistika
 extern long long unsigned int vyrobeno_cokolady;
@@ -43,7 +43,7 @@ extern unsigned mixer_obsazeno;
 extern unsigned nadoba_obsazeno;
 /// Aktualni pocet cokolady v nadobe pred strojem
 extern unsigned stroj_obsazeno;
-/// V jakem case se nachazime. Cas je v jednotkach casu, ktera se nastavuje ve tride Statistika
+/// V jakem case se nachazime. Cas je v jednotce casu, ktera se nastavuje ve tride Statistika
 extern unsigned jednotka_casu;
 /// Den v tydnu, 0-4 jsou pracovni dny, 5 a 6 jsou vikendy
 extern unsigned den;
@@ -63,7 +63,7 @@ extern Facility mixer;
 extern Facility stroj;
 
 /**
- * Proces pracovni doby. Meni hodnody globalni promene pracovni_doba.
+ * Proces pracovni doby. Meni hodnoty globalni promenne pracovni_doba.
  */
 class Pracovni_doba: public Process {
 	void Behavior() {
@@ -96,7 +96,7 @@ class Pracovni_doba: public Process {
 };
 
 /**
- * Proces, ktery generuje csv na standartni vstup. Vystup tohoto procesu lze pouzit
+ * Proces, ktery generuje csv na standartni vystup. Vystup tohoto procesu lze pouzit
  * primo na generovani grafu.
  */
 class Statistika: public Process {
@@ -121,7 +121,7 @@ class Statistika: public Process {
 };
 
 /**
- * Udalost zavzdusneni pouze nastavi globalni hodnotu a konci. Porucha zavzdusneni
+ * Udalost zavzdusneni pouze nastavi globalni promennou a konci. Porucha zavzdusneni
  * neni nijak fatalni a je opravena samotnym Zamestnancem, pote co stroj zpracuje
  * veskerou cokoladu na lince.
  */
@@ -156,7 +156,7 @@ class Porucha_cepele: public Process {
 			mixer_obsazeno = 0;
 			// mixer se opravuje i o vikendu, bez nej cela linka stoji, takze
 			// (nastesti) neni treba resit vikendy. V noci se samozrejmne neopravuje
-			// ale to je zahrnuto uz v dobe opravi.
+			// ale to je zahrnuto uz v dobe opravy.
 			Wait( Uniform( DEN * 4, DEN * 7 ) );
 			// Mixer mohu predat zamestnanci az behem pracovni doby
 			WaitUntil( pracovni_doba );
@@ -211,7 +211,7 @@ public:
 		stroj_obsazeno--;
 		Release( stroj );
 		// Ted se musim rozhodnout, zda jsem vyrobil zmetek. Produkce zmetku
-		// je zvyzena se zavzdusnenim stroje, ale o kolik, to nikdo nevi. Ale podle
+		// je zvysena se zavzdusnenim stroje, ale o kolik, to nikdo nevi. Ale podle
 		// vseho to je jiz zahrnute v 10% procentech.
 		double what_now =  Random();
 		if ( what_now <= 0.1 ) {
@@ -227,7 +227,7 @@ public:
 
 /**
  * Udalost tvrdnuti cokolady. Po urcite dobe pozastavi Zamestnance, ten musi
- * rozehrat zavrdlou cokoladu.
+ * rozehrat zatvrdlou cokoladu.
  */
 class Tvrdnuti_cokolady: public Event {
 private:

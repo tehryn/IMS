@@ -6,14 +6,14 @@ Program chocolate slouzi k simulaci linky zpracovavajici surovou cokoladu.
 Preklad
 -------------------
 Program se prelozi pomoci prikazu "make", je zapotrebi mit nainstalovanou
-kinihovnu SIMLIB/C++ a prekladac g++ s podporou standartu c++11
+knihovnu SIMLIB/C++ a prekladac g++ s podporou standartu c++11
 
 ===================
 Pouziti
 -------------------
 ./chocolate [mnozstvi_cokolady]
 
-kde mnozstvi_cokolady je cislo udavajici vstupni mnozstvi cokolady do mixeru,
+Kde mnozstvi_cokolady je cislo udavajici vstupni mnozstvi cokolady do mixeru,
 vychozi hodnota je 50.
 
 ===================
@@ -21,17 +21,17 @@ Priklady pouziti
 -------------------
 ./chocolate 75
 
-Spusti simulaci 10 let vyroby cokolady s delkou simulace 10 let a jednotkou casu
-bude tyden.
+Spusti simulaci vyroby cokolady s delkou simulace 10 let a jednotkou casu tyden.
+Mnozstvi cokolady vlozene do mixeru bude 75 kilogramu.
 
 ===================
 Kratka simulace
 -------------------
 make run
 
-Vytvori a spusti soubor example, ktery ma stejne parametry jako chocolate. Pri
-tomto spusteni bude spustena s parametrem 50. Narozdil od programu chocolate je
-zde delka simulace 1 tyden.
+Vytvori a spusti soubor example, ktery ma stejne parametry jako chocolate. Program
+bude spusten s parametrem 50. Narozdil od programu chocolate je zde delka simulace
+1 tyden.
 
 ==================
 Experimenty a statistika
@@ -39,8 +39,8 @@ Experimenty a statistika
 make experiments
 
 Vytvori binarni soubory pro simulaci poruch stroju a spusti experimenty. Vysledky
-experimentu budou ulozeny v slozce statistika. Soubory jsou v formatu csv a jmenuji
-se statistika_MNOZSTVI.csv kde MNOZSTVI je cislo udavajici kolik cokolady bylo
+experimentu budou ulozeny ve slozce statistika. Soubory jsou v formatu csv a jmenuji
+se statistika_MNOZSTVI.csv, kde MNOZSTVI je cislo udavajici, kolik cokolady bylo
 davano do mixeru behem experimentu. Vysledky experimentu poruch stroju jsou ulozeny
 v souborech vliv_cepele.csv, vliv_filtru.csv a vliv_stroje.csv
 
